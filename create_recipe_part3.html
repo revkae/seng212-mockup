@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Recipe - Media</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto my-8 sm:my-12 md:my-16 px-4">
+  <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+    <header class="bg-[#644F9C] py-6 sm:py-8 px-4 sm:px-6 md:px-8">
+      <div class="flex items-center">
+        <a href="index.html" class="text-white text-xl sm:text-2xl md:text-3xl font-bold mr-2 sm:mr-3">lazy.cook</a>
+        <span class="text-white text-xl sm:text-2xl md:text-3xl font-bold opacity-80">| Create New Recipe</span>
+      </div>
+    </header>
+
+    <main class="p-4 sm:p-6 md:p-8">
+      <h2 class="text-[#333333] text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center sm:text-left">
+        Create New Recipe
+      </h2>
+      <section class="mb-8 sm:mb-10 md:mb-12">
+        <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
+          <a href="create_recipe_part1.html" class="flex items-center">
+            <div class="bg-green-500 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-bold">✓</div>
+            <span class="text-[#777777] text-sm sm:text-base font-semibold ml-1 sm:ml-2">Details</span>
+          </a>
+          <div class="h-px w-12 sm:w-16 lg:w-20 bg-green-500 hidden sm:block"></div>
+
+          <a href="create_recipe_part2.html" class="flex items-center">
+            <div class="bg-green-500 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-bold">✓</div>
+            <span class="text-[#777777] text-sm sm:text-base font-semibold ml-1 sm:ml-2">Ingredients & Steps</span>
+          </a>
+          <div class="h-px w-12 sm:w-16 lg:w-20 bg-[#644F9C] hidden sm:block"></div>
+
+          <div class="flex items-center">
+            <div class="bg-[#644F9C] w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-bold">3</div>
+            <span class="text-[#644F9C] text-sm sm:text-base font-bold ml-1 sm:ml-2">Media</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="text-center mb-8 sm:mb-10 md:mb-12">
+        <h2 class="text-black text-xl sm:text-2xl font-bold mb-1">Upload Photos & Videos</h2>
+        <p class="text-[#777777] text-sm sm:text-base font-semibold">Add stunning visuals to make your recipe shine! (Optional)</p>
+      </section>
+
+      <form action="recipe_view.html" method="GET" class="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md border border-gray-200">
+        <section class="bg-[#644F9C] p-3 sm:p-4 rounded-xl">
+          <label for="fileUploadInput" class="bg-[#CEBCFF] border-2 border-dashed border-[#A98BFF] rounded-lg p-6 sm:p-8 md:p-12 text-center cursor-pointer hover:bg-opacity-90 transition-opacity block">
+            <span class="text-[#644F9C] text-4xl sm:text-5xl font-bold mb-3 sm:mb-4 block">⬆️</span>
+            <p class="text-[#644F9C] text-base sm:text-lg font-bold mb-1">Drag & drop files here or click to browse</p>
+            <p class="text-[#777777] text-xs sm:text-sm font-semibold">Supports JPG, PNG, GIF, MP4. Max file size 10MB.</p>
+            <input type="file" multiple class="hidden" id="fileUploadInput" accept="image/*,video/mp4" onchange="handleFiles(this.files)"/>
+          </label>
+
+          <div class="pt-4 sm:pt-6 pb-3 sm:pb-4 px-2 sm:px-4" id="uploaded-files-section">
+            <h3 class="text-white text-base sm:text-lg font-bold mb-4 text-left">Uploaded Files: <span id="file-count">(0)</span></h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5" id="file-preview-container">
+              <!-- Example Uploaded File Item 1 (Structure for JS)-->
+              <div class="bg-gray-200 rounded-lg p-2.5 relative group data-file-item hidden" id="file-item-template">
+                <button type="button" class="absolute top-1.5 right-1.5 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity remove-file-btn" title="Remove">
+                  <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/35dn70lt_expires_30_days.png" alt="Remove" class="w-3 h-3 invert filter brightness-0">
+                </button>
+                <div class="bg-[#D9D9D9] w-full h-24 sm:h-28 rounded-md flex items-center justify-center text-gray-500 mb-1.5 file-thumbnail-container">
+                  <!-- <img src="" alt="Preview" class="max-w-full max-h-full object-contain file-thumbnail"> -->
+                  <span class="text-xs font-semibold file-name-placeholder"></span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700 text-xs font-semibold file-size-placeholder"></span>
+                  <button type="button" class="flex items-center bg-white text-black text-xs px-1.5 py-0.5 rounded-full border border-solid border-gray-400 hover:border-[#FF9F45] hover:text-[#FF9F45] set-cover-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1 icon-star" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.539 1.118l-3.975-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                    Set Cover
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="mt-8 sm:mt-10 md:mt-12 pt-6 border-t border-gray-200">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <a href="create_recipe_part2.html" class="w-full sm:w-auto text-center bg-white text-[#644F9C] text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg border-2 border-solid border-[#644F9C] hover:bg-purple-50 transition-colors">
+              Previous: Ingredients & Steps
+            </a>
+            <a href="dashboard.html" class="w-full sm:w-auto text-center bg-[#777777] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
+              Save Draft
+            </a>
+            <button type="submit" class="w-full sm:w-auto bg-[#4F9C78] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
+              Publish Recipe
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="text-center py-6 text-xs text-gray-500">
+    &copy; 2023 lazy.cook. All rights reserved.
+  </footer>
+</div>
+<script>
+  const fileInput = document.getElementById('fileUploadInput');
+  const previewContainer = document.getElementById('file-preview-container');
+  const fileItemTemplate = document.getElementById('file-item-template');
+  const fileCountElement = document.getElementById('file-count');
+  let uploadedFiles = [];
+
+  function handleFiles(files) {
+    for (const file of files) {
+      if (!uploadedFiles.some(f => f.name === file.name && f.size === file.size)) { // Rudimentary duplicate check
+        if (file.size > 10 * 1024 * 1024) { // Max 10MB
+          alert(`File ${file.name} is too large (max 10MB).`);
+          continue;
+        }
+        uploadedFiles.push(file);
+        renderFilePreview(file);
+      }
+    }
+    updateFileCount();
+  }
+
+  function renderFilePreview(file) {
+    const reader = new FileReader();
+    const fileItem = fileItemTemplate.cloneNode(true);
+    fileItem.classList.remove('hidden');
+    fileItem.removeAttribute('id');
+
+    const fileNamePlaceholder = fileItem.querySelector('.file-name-placeholder');
+    const fileSizePlaceholder = fileItem.querySelector('.file-size-placeholder');
+    const thumbnailContainer = fileItem.querySelector('.file-thumbnail-container');
+    const removeBtn = fileItem.querySelector('.remove-file-btn');
+    const setCoverBtn = fileItem.querySelector('.set-cover-btn');
+
+    fileNamePlaceholder.textContent = file.name.length > 15 ? file.name.substring(0,12) + "..." : file.name;
+    fileSizePlaceholder.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+
+    if (file.type.startsWith('image/')) {
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = file.name;
+        img.className = 'max-w-full max-h-full object-contain file-thumbnail';
+        thumbnailContainer.innerHTML = ''; // Clear placeholder
+        thumbnailContainer.appendChild(img);
+      }
+      reader.readAsDataURL(file);
+    } else if (file.type.startsWith('video/')) {
+      thumbnailContainer.innerHTML = `<span class="text-3xl">🎬</span><span class="text-xs mt-1">${fileNamePlaceholder.textContent}</span>`;
+      fileNamePlaceholder.textContent = ""; // Don't show name under icon
+    } else {
+      thumbnailContainer.innerHTML = `<span class="text-3xl">📄</span><span class="text-xs mt-1">${fileNamePlaceholder.textContent}</span>`;
+      fileNamePlaceholder.textContent = "";
+    }
+
+    removeBtn.addEventListener('click', () => {
+      uploadedFiles = uploadedFiles.filter(f => f !== file);
+      fileItem.remove();
+      updateFileCount();
+      // If this was the cover, clear cover status or pick another one
+      if(fileItem.classList.contains('border-[#FF9F45]')){
+        // Potentially logic to auto-select a new cover
+      }
+    });
+
+    setCoverBtn.addEventListener('click', () => {
+      // Remove 'cover' status from all other items
+      document.querySelectorAll('.data-file-item').forEach(item => {
+        item.classList.remove('border-[#FF9F45]', 'border-2');
+        item.querySelector('.set-cover-btn .icon-star').innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.539 1.118l-3.975-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />`; // outline star
+        item.querySelector('.set-cover-btn').classList.remove('text-[#FF9F45]');
+      });
+      // Set this item as cover
+      fileItem.classList.add('border-[#FF9F45]', 'border-2');
+      setCoverBtn.querySelector('.icon-star').innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.539 1.118l-3.975-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69L1.519 4.674z" fill="currentColor" />`; // filled star
+      setCoverBtn.classList.add('text-[#FF9F45]');
+    });
+    previewContainer.appendChild(fileItem);
+  }
+
+  function updateFileCount(){
+    fileCountElement.textContent = `(${uploadedFiles.length})`;
+  }
+
+  // Make the entire dropzone clickable for file input
+  document.querySelector('.bg-#CEBCFF').addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  // Basic Drag and Drop
+  const dropZone = document.querySelector('.bg-#CEBCFF');
+  dropZone.addEventListener('dragover', (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+    dropZone.classList.add('bg-opacity-70');
+  });
+  dropZone.addEventListener('dragleave', (event) => {
+    dropZone.classList.remove('bg-opacity-70');
+  });
+  dropZone.addEventListener('drop', (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    dropZone.classList.remove('bg-opacity-70');
+    const files = event.dataTransfer.files;
+    handleFiles(files);
+  });
+</script>
+</body>
+</html>

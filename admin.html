@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Flagged Comments</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    .overflow-y-auto::-webkit-scrollbar { width: 8px; }
+    .overflow-y-auto::-webkit-scrollbar-thumb { background-color: #4F4F4F; border-radius: 4px; }
+    .overflow-y-auto::-webkit-scrollbar-track { background-color: #2C2C2C; }
+    .overflow-x-auto::-webkit-scrollbar { height: 8px; }
+    .overflow-x-auto::-webkit-scrollbar-thumb { background-color: #4F4F4F; border-radius: 4px; }
+    .overflow-x-auto::-webkit-scrollbar-track { background-color: #2C2C2C; }
+  </style>
+</head>
+<body class="bg-[#FFFFFF]">
+<div class="flex flex-col min-h-screen">
+  <div class="flex items-center self-stretch bg-[#232323] py-3 px-4 sm:px-6 md:px-8">
+    <a href="admin.html" class="flex-1 text-[#FFFFFF] text-lg sm:text-xl md:text-2xl font-bold">
+      LazyCook - Admin
+    </a>
+    <span class="text-[#FFFFFF] text-sm md:text-base mr-2 md:mr-3">
+				Admin User
+			</span>
+    <div class="flex flex-col shrink-0 items-center justify-center bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/4cf05sry_expires_30_days.png')] bg-cover bg-center w-8 h-8 md:w-10 md:h-10 rounded-full">
+				<span class="text-[#000000] text-xs md:text-sm font-semibold">
+					AU
+				</span>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row flex-1">
+    <div class="w-full md:w-56 lg:w-64 bg-[#2C2C2C] text-white shrink-0">
+      <div class="p-4 md:p-6 space-y-6 md:space-y-8 mt-4 md:mt-0">
+        <a href="admin.html" class="block text-[#A0A0A0] hover:text-white text-lg md:text-xl transition-colors duration-150">📊 Dashboard</a>
+        <a href="#" class="block text-[#A0A0A0] hover:text-white text-lg md:text-xl transition-colors duration-150">👥 Users</a>
+        <a href="admin.html" class="block text-white font-semibold text-lg md:text-xl transition-colors duration-150">🍲 Flagged <span class="text-xs text-gray-400">(Active)</span></a>
+        <a href="#" class="block text-[#A0A0A0] hover:text-white text-lg md:text-xl transition-colors duration-150">⚙️ Settings</a>
+        <a href="index.html" class="block text-[#A0A0A0] hover:text-red-400 text-lg md:text-xl transition-colors duration-150 mt-10">🚪 Logout (Site)</a>
+      </div>
+    </div>
+
+    <div class="flex-1 flex flex-col bg-[#1E1E1E] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/h3hkiwux_expires_30_days.png')] bg-cover bg-center p-4 sm:p-5 md:p-8 overflow-y-auto">
+				<span class="text-[#E0E0E0] text-xl sm:text-2xl md:text-3xl font-bold mb-6 md:mb-8">
+					Flagged Comments
+				</span>
+
+      <div class="flex flex-col sm:flex-row w-full gap-4 mb-6 md:mb-8">
+        <input
+                type="text"
+                placeholder="Search comments by text, ID..."
+                class="w-full sm:flex-1 text-[#FFFFFF] bg-[#353535] text-sm p-3 rounded-md border border-solid border-[#4D4D4D] focus:ring-2 focus:ring-[#60A5FA] focus:border-[#60A5FA] outline-none"
+        />
+        <input
+                type="text"
+                placeholder="Filter by user, reason, date..."
+                class="w-full sm:flex-1 text-[#FFFFFF] bg-[#353535] text-sm p-3 rounded-md border border-solid border-[#4D4D4D] focus:ring-2 focus:ring-[#60A5FA] focus:border-[#60A5FA] outline-none"
+        />
+      </div>
+
+      <div class="w-full mb-8">
+        <div class="overflow-x-auto rounded-md shadow-lg border border-[#4D4D4D]">
+          <div class="min-w-[700px] md:min-w-[800px] lg:min-w-full">
+            <div class="flex items-center bg-[#2A2A2A] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/1ovbe3si_expires_30_days.png')] bg-cover bg-center p-3 md:p-4 text-xs sm:text-sm">
+              <span class="text-[#BDBDBD] font-bold w-16 shrink-0 px-2">ID</span>
+              <span class="text-[#BDBDBD] font-bold w-32 sm:w-36 shrink-0 px-2">Reported By</span>
+              <span class="text-[#BDBDBD] font-bold flex-1 min-w-[200px] sm:min-w-[250px] px-2">Comment Text (Excerpt)</span>
+              <span class="text-[#BDBDBD] font-bold w-28 sm:w-32 shrink-0 px-2">Reason</span>
+              <span class="text-[#BDBDBD] font-bold w-28 sm:w-32 shrink-0 px-2">Date</span>
+              <span class="text-[#BDBDBD] font-bold w-24 sm:w-28 shrink-0 text-center px-2">Actions</span>
+            </div>
+            <div class="flex items-center bg-[#333333] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/a2vecnv9_expires_30_days.png')] bg-cover bg-center p-3 md:p-4 border-t border-[#4D4D4D] hover:bg-[#3F3F3F] transition-colors text-sm">
+              <span class="text-[#E0E0E0] w-16 shrink-0 px-2 truncate">#1023</span>
+              <span class="text-[#E0E0E0] w-32 sm:w-36 shrink-0 px-2 truncate">UserA123</span>
+              <span class="text-[#E0E0E0] flex-1 min-w-[200px] sm:min-w-[250px] px-2 truncate">This is a very offensive comment that violates...</span>
+              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2 truncate">Hate Speech</span>
+              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2">2023-10-25</span>
+              <div class="w-24 sm:w-28 shrink-0 flex items-center justify-center space-x-2 px-2">
+                <button title="Approve" class="text-green-500 hover:text-green-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">✔️</button>
+                <button title="Delete" class="text-red-500 hover:text-red-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">🗑️</button>
+              </div>
+            </div>
+            <div class="flex items-center bg-[#333333] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/39etpind_expires_30_days.png')] bg-cover bg-center p-3 md:p-4 border-t border-[#4D4D4D] hover:bg-[#3F3F3F] transition-colors text-sm">
+              <span class="text-[#E0E0E0] w-16 shrink-0 px-2 truncate">#1024</span>
+              <span class="text-[#E0E0E0] w-32 sm:w-36 shrink-0 px-2 truncate">AnotherUser</span>
+              <span class="text-[#E0E0E0] flex-1 min-w-[200px] sm:min-w-[250px] px-2 truncate">Spam link here: http://spam.com</span>
+              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2 truncate">Spam</span>
+              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2">2023-10-26</span>
+              <div class="w-24 sm:w-28 shrink-0 flex items-center justify-center space-x-2 px-2">
+                <button title="Approve" class="text-green-500 hover:text-green-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">✔️</button>
+                <button title="Delete" class="text-red-500 hover:text-red-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">🗑️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-center sm:justify-end items-center w-full mt-auto pt-4 gap-2 sm:gap-0">
+        <span class="text-[#FFFFFF] text-sm md:text-base">Page 1 of 5</span>
+        <div class="flex items-center space-x-1 sm:space-x-2 ml-0 sm:ml-4">
+          <button class="text-[#FFFFFF] text-sm md:text-base px-2 py-1 hover:bg-[#4D4D4D] rounded transition-colors disabled:opacity-50" disabled>[ < Prev ]</button>
+          <button class="text-[#FFFFFF] text-sm md:text-base px-2 py-1 hover:bg-[#4D4D4D] rounded transition-colors">[ Next > ]</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

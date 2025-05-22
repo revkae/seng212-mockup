@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Recipe - Ingredients & Steps</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    .trash-icon { width: 1.25em; height: 1.25em; fill: currentColor;}
+  </style>
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto my-8 sm:my-12 md:my-16 px-4">
+  <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+    <header class="bg-[#644F9C] py-6 sm:py-8 px-4 sm:px-6 md:px-8">
+      <div class="flex items-center">
+        <a href="index.html" class="text-white text-xl sm:text-2xl md:text-3xl font-bold mr-2 sm:mr-3">lazy.cook</a>
+        <span class="text-white text-xl sm:text-2xl md:text-3xl font-bold opacity-80">| Create New Recipe</span>
+      </div>
+    </header>
+
+    <main class="p-4 sm:p-6 md:p-8">
+      <h2 class="text-[#333333] text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center sm:text-left">
+        Create New Recipe
+      </h2>
+
+      <section class="mb-8 sm:mb-10 md:mb-12">
+        <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
+          <a href="create_recipe_part1.html" class="flex items-center">
+            <div class="bg-green-500 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-bold">✓</div>
+            <span class="text-[#644F9C] text-sm sm:text-base font-semibold ml-1 sm:ml-2">Details</span>
+          </a>
+          <div class="h-px w-12 sm:w-16 lg:w-20 bg-[#644F9C] hidden sm:block"></div>
+
+          <div class="flex items-center">
+            <div class="bg-[#644F9C] w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-bold">2</div>
+            <span class="text-[#644F9C] text-sm sm:text-base font-bold ml-1 sm:ml-2">Ingredients & Steps</span>
+          </div>
+          <div class="h-px w-12 sm:w-16 lg:w-20 bg-gray-300 hidden sm:block"></div>
+
+          <div class="flex items-center opacity-50">
+            <div class="bg-gray-300 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-gray-600 text-xs sm:text-sm font-bold">3</div>
+            <span class="text-[#777777] text-sm sm:text-base font-semibold ml-1 sm:ml-2">Media</span>
+          </div>
+        </div>
+      </section>
+
+      <form action="create_recipe_part3.html" method="GET" class="space-y-8 sm:space-y-10 bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md border border-gray-200">
+        <section>
+          <h3 class="text-black text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Ingredients</h3>
+          <div class="space-y-4" id="ingredients-container">
+            <div class="ingredient-row border border-gray-300 rounded-md p-3 sm:p-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-10 gap-3 sm:gap-4 items-end">
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Quantity</label>
+                  <input type="text" name="ing_qty[]" placeholder="e.g., 1" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]">
+                </div>
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Unit</label>
+                  <select name="ing_unit[]" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C] bg-white">
+                    <option value="">Select unit</option>
+                    <option value="cup">cup(s)</option><option value="tsp">tsp</option><option value="tbsp">tbsp</option><option value="g">g</option><option value="kg">kg</option><option value="oz">oz</option><option value="lb">lb</option><option value="ml">ml</option><option value="l">l</option><option value="pinch">pinch</option><option value="dash">dash</option><option value="piece">piece(s)</option>
+                  </select>
+                </div>
+                <div class="sm:col-span-2 lg:col-span-3">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Ingredient Name*</label>
+                  <input type="text" name="ing_name[]" placeholder="e.g., All-purpose flour" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]" required>
+                </div>
+                <div class="sm:col-span-2 lg:col-span-2">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                  <input type="text" name="ing_notes[]" placeholder="e.g., sifted" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]">
+                </div>
+                <div class="lg:col-span-1 flex justify-end">
+                  <button type="button" class="p-2 text-red-500 hover:text-red-700 remove-ingredient-btn" title="Remove Ingredient">
+                    <svg class="trash-icon" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="ingredient-row border border-gray-300 rounded-md p-3 sm:p-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-10 gap-3 sm:gap-4 items-end">
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Quantity</label>
+                  <input type="text" name="ing_qty[]" placeholder="e.g., 2" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]">
+                </div>
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Unit</label>
+                  <select name="ing_unit[]" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C] bg-white">
+                    <option value="">Select unit</option>
+                    <option value="cup">cup(s)</option><option value="tsp">tsp</option><option value="tbsp">tbsp</option><option value="g">g</option><option value="kg">kg</option><option value="oz">oz</option><option value="lb">lb</option><option value="ml">ml</option><option value="l">l</option><option value="pinch">pinch</option><option value="dash">dash</option><option value="piece" selected>piece(s)</option>
+                  </select>
+                </div>
+                <div class="sm:col-span-2 lg:col-span-3">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Ingredient Name*</label>
+                  <input type="text" name="ing_name[]" placeholder="e.g., Eggs" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]" required>
+                </div>
+                <div class="sm:col-span-2 lg:col-span-2">
+                  <label class="block text-xs font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                  <input type="text" name="ing_notes[]" placeholder="e.g., room temperature" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]">
+                </div>
+                <div class="lg:col-span-1 flex justify-end">
+                  <button type="button" class="p-2 text-red-500 hover:text-red-700 remove-ingredient-btn" title="Remove Ingredient">
+                    <svg class="trash-icon" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" id="add-ingredient-btn" class="mt-4 inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#4F9C78] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4F9C78]">
+            <svg class="w-5 h-5 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+            Add Ingredient
+          </button>
+        </section>
+
+        <section>
+          <h3 class="text-black text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Instructions / Steps</h3>
+          <div class="space-y-6" id="steps-container">
+            <div class="step-row">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Step 1</label>
+              <div class="flex items-start space-x-2">
+                <textarea name="step_desc[]" rows="3" placeholder="e.g., Preheat oven to 350°F (175°C)." class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C] flex-grow" required></textarea>
+                <button type="button" class="mt-1 p-2 text-red-500 hover:text-red-700 remove-step-btn" title="Remove Step">
+                  <svg class="trash-icon" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div class="step-row">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Step 2</label>
+              <div class="flex items-start space-x-2">
+                <textarea name="step_desc[]" rows="3" placeholder="e.g., Mix dry ingredients in a large bowl." class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C] flex-grow" required></textarea>
+                <button type="button" class="mt-1 p-2 text-red-500 hover:text-red-700 remove-step-btn" title="Remove Step">
+                  <svg class="trash-icon" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button type="button" id="add-step-btn" class="mt-4 inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#4F9C78] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4F9C78]">
+            <svg class="w-5 h-5 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+            Add Step
+          </button>
+        </section>
+        <div class="mt-8 sm:mt-10 md:mt-12 pt-6 border-t border-gray-200">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center sm:justify-end items-center">
+            <a href="create_recipe_part1.html" class="w-full sm:w-auto text-center bg-gray-200 text-gray-700 text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-gray-300 transition-colors">
+              Previous: Details
+            </a>
+            <a href="dashboard.html" class="w-full sm:w-auto text-center bg-[#777777] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
+              Save Draft
+            </a>
+            <button type="submit" class="w-full sm:w-auto bg-[#4F9C78] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
+              Next: Media
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="text-center py-6 text-xs text-gray-500">
+    &copy; 2023 lazy.cook. All rights reserved.
+  </footer>
+</div>
+<!-- Basic JS for adding/removing ingredients and steps (for demonstration) -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add Ingredient
+    const addIngredientBtn = document.getElementById('add-ingredient-btn');
+    const ingredientsContainer = document.getElementById('ingredients-container');
+    let ingredientRowCount = ingredientsContainer.querySelectorAll('.ingredient-row').length;
+
+    addIngredientBtn.addEventListener('click', function() {
+      ingredientRowCount++;
+      const newRow = document.createElement('div');
+      newRow.className = 'ingredient-row border border-gray-300 rounded-md p-3 sm:p-4';
+      newRow.innerHTML = `
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-10 gap-3 sm:gap-4 items-end">
+                        <div class="lg:col-span-2">
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Quantity</label>
+                            <input type="text" name="ing_qty[]" placeholder="e.g., 1" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]">
+                        </div>
+                        <div class="lg:col-span-2">
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Unit</label>
+                             <select name="ing_unit[]" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C] bg-white">
+                                <option value="">Select unit</option>
+                                <option value="cup">cup(s)</option><option value="tsp">tsp</option><option value="tbsp">tbsp</option><option value="g">g</option><option value="kg">kg</option><option value="oz">oz</option><option value="lb">lb</option><option value="ml">ml</option><option value="l">l</option><option value="pinch">pinch</option><option value="dash">dash</option><option value="piece">piece(s)</option>
+                            </select>
+                        </div>
+                        <div class="sm:col-span-2 lg:col-span-3">
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Ingredient Name*</label>
+                            <input type="text" name="ing_name[]" placeholder="e.g., New Ingredient" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]" required>
+                        </div>
+                        <div class="sm:col-span-2 lg:col-span-2">
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                            <input type="text" name="ing_notes[]" placeholder="e.g., finely chopped" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C]">
+                        </div>
+                        <div class="lg:col-span-1 flex justify-end">
+                            <button type="button" class="p-2 text-red-500 hover:text-red-700 remove-ingredient-btn" title="Remove Ingredient">
+                                <svg class="trash-icon" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
+                            </button>
+                        </div>
+                    </div>`;
+      ingredientsContainer.appendChild(newRow);
+    });
+
+    // Add Step
+    const addStepBtn = document.getElementById('add-step-btn');
+    const stepsContainer = document.getElementById('steps-container');
+    let stepRowCount = stepsContainer.querySelectorAll('.step-row').length;
+
+    addStepBtn.addEventListener('click', function() {
+      stepRowCount++;
+      const newStep = document.createElement('div');
+      newStep.className = 'step-row';
+      newStep.innerHTML = `
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Step ${stepRowCount}</label>
+                    <div class="flex items-start space-x-2">
+                        <textarea name="step_desc[]" rows="3" placeholder="Describe this step..." class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-[#644F9C] focus:border-[#644F9C] flex-grow" required></textarea>
+                        <button type="button" class="mt-1 p-2 text-red-500 hover:text-red-700 remove-step-btn" title="Remove Step">
+                            <svg class="trash-icon" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
+                        </button>
+                    </div>`;
+      stepsContainer.appendChild(newStep);
+    });
+
+    // Remove Ingredient/Step (event delegation)
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.remove-ingredient-btn')) {
+        if (ingredientsContainer.querySelectorAll('.ingredient-row').length > 1) {
+          e.target.closest('.ingredient-row').remove();
+        } else {
+          alert("At least one ingredient is required.");
+        }
+      }
+      if (e.target.closest('.remove-step-btn')) {
+        if (stepsContainer.querySelectorAll('.step-row').length > 1) {
+          e.target.closest('.step-row').remove();
+          // Re-number steps after removal
+          const remainingSteps = stepsContainer.querySelectorAll('.step-row');
+          remainingSteps.forEach((step, index) => {
+            step.querySelector('label').textContent = `Step ${index + 1}`;
+          });
+          stepRowCount = remainingSteps.length; // Update stepRowCount
+        } else {
+          alert("At least one step is required.");
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>

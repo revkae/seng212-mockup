@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - LazyCooker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+  </style>
+</head>
+<body class="bg-[#F7FAFC] min-h-screen flex flex-col items-center justify-center p-4 relative overflow-x-hidden">
+
+<!-- Decorative circle 1 (top-left area) -->
+<div class="absolute -top-10 -left-10 sm:-top-20 sm:-left-20 w-60 h-60 sm:w-80 sm:h-80 bg-[#644F9C]/10 rounded-full -z-10 opacity-75"></div>
+<!-- Decorative circle 2 (bottom-right area) -->
+<div class="absolute -bottom-10 -right-10 sm:-bottom-20 sm:-right-20 w-40 h-40 sm:w-52 sm:h-52 bg-[#3BA66B]/10 rounded-full -z-10 opacity-75"></div>
+
+<div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden z-0">
+  <!-- Form Header -->
+  <div class="bg-[#644F9C] py-6 sm:py-8 px-6 text-center">
+    <a href="index.html">
+      <h1 class="text-white text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">LazyCooker</h1>
+    </a>
+    <p class="text-[#E9D5FF] text-sm sm:text-base">
+      Sign in to continue
+    </p>
+  </div>
+
+  <!-- Form Body -->
+  <form action="dashboard.html" method="GET" class="p-6 sm:p-8 space-y-6"> <!-- GET to simulate navigation -->
+    <div>
+      <label for="email" class="block text-[#374151] text-sm font-bold mb-2">
+        Email Address
+      </label>
+      <input
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              class="w-full text-[#757575] bg-white text-base py-3 px-4 rounded-md border border-solid border-[#E2E8F0] focus:ring-2 focus:ring-[#644F9C] focus:border-transparent outline-none"
+              required
+      />
+    </div>
+
+    <div>
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+        <label for="password" class="block text-[#374151] text-sm font-bold">
+          Password
+        </label>
+        <a href="forgot_password.html" class="text-[#644F9C] text-sm hover:underline mt-1 sm:mt-0">
+          Forgot Password?
+        </a>
+      </div>
+      <div class="relative">
+        <input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                class="w-full text-[#757575] bg-white text-base py-3 px-4 rounded-md border border-solid border-[#E2E8F0] focus:ring-2 focus:ring-[#644F9C] focus:border-transparent outline-none pr-10"
+                required
+        />
+        <button type="button" title="Show/Hide password" onclick="togglePasswordVisibility('password')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
+          <img
+                  src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/oi72zss3_expires_30_days.png"
+                  alt="Toggle password visibility"
+                  class="w-5 h-5 object-contain"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center">
+      <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-[#644F9C] border-gray-300 rounded focus:ring-[#644F9C]">
+      <label for="remember-me" class="ml-2 block text-sm text-[#374151]">
+        Remember me
+      </label>
+    </div>
+
+    <button
+            type="submit"
+            class="w-full bg-[#644F9C] text-white text-base font-bold py-3 px-4 rounded-md hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#644F9C]"
+    >
+      Sign In
+    </button>
+
+    <div class="text-center text-sm">
+      <span class="text-[#4B5563]">Don't have an account? </span>
+      <a href="register.html" class="font-medium text-[#644F9C] hover:underline">
+        Sign up
+      </a>
+    </div>
+  </form>
+</div>
+<footer class="mt-8 text-center text-xs text-gray-500">
+  <p>© 2023 LazyCooker. All rights reserved.</p>
+</footer>
+<script>
+  function togglePasswordVisibility(fieldId) {
+    const field = document.getElementById(fieldId);
+    if (field.type === "password") {
+      field.type = "text";
+    } else {
+      field.type = "password";
+    }
+  }
+</script>
+</body>
+</html>

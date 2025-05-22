@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazyCook - Find & Share Recipes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popUpScale {
+            0% { opacity: 0; transform: scale(0.7); }
+            60% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse-sm {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        .animate-fadeIn { animation: fadeIn 0.6s ease-out forwards; }
+        .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+        .animate-popUpScale { animation: popUpScale 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+
+        .opacity-0-initial { opacity: 0; }
+        .header-link::after { content: ''; display: block; width: 0; height: 2px; background: #644F9C; transition: width .3s ease-in-out; }
+        .header-link:hover::after, .header-link-active::after { width: 100%; }
+        .notification-badge.pulsing { animation: pulse-sm 1.5s ease-in-out 3; }
+
+        /* Notification Dropdown Styling */
+        .notification-dropdown {
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+            pointer-events: none; /* Initially not interactive until shown */
+        }
+        .notification-dropdown.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        /* Triangle for the dropdown */
+        .notification-dropdown::before {
+            content: "";
+            position: absolute;
+            bottom: 100%; /* At the top of the dropdown */
+            right: 10px; /* Position as desired relative to bell */
+            margin-left: -5px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent white transparent; /* Arrow pointing up */
+            filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.05));
+        }
+    </style>
+</head>
+<body class="bg-[#FFFFFF]">
+<div class="flex flex-col min-h-screen bg-[#F9FAFB]">
+    <!-- Header -->
+    <header class="self-stretch bg-[#FFFFFF] shadow-sm sticky top-0 z-50 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between py-3 md:py-4">
+                <a href="index.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
+                    lazy.cook
+                </a>
+
+                <div class="flex items-center space-x-2 sm:space-x-3 md:space-x-4 mt-2 sm:mt-0 flex-wrap justify-end">
+                    <a href="index.html" class="header-link header-link-active text-[#644F9C] text-sm sm:text-base font-bold px-1 py-1">Search</a>
+                    <a href="dashboard.html" class="header-link text-[#374151] text-sm sm:text-base font-bold hover:text-[#644F9C] px-1 py-1">Dashboard</a>
+
+                    <a href="register.html" class="text-[#644F9C] text-sm sm:text-base font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-[6px] border-2 border-solid border-[#644F9C] hover:bg-[#644F9C] hover:text-white transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95">
+                        Sign Up
+                    </a>
+                    <a href="login.html" class="bg-[#644F9C] text-white text-sm sm:text-base font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-[6px] hover:bg-opacity-90 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95">
+                        Log In
+                    </a>
+
+                    <!-- MODIFIED Notification Icon Area -->
+                    <div id="notification-icon-wrapper" class="relative">
+                        <button id="notification-button" title="Notifications" class="p-1 transition-transform duration-200 hover:scale-110 focus:outline-none">
+                            <img
+                                    src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/sbed0mph_expires_30_days.png"
+                                    alt="Notifications"
+                                    class="w-[20px] h-[25px] sm:w-[24px] sm:h-[30px] object-contain"
+                            />
+                        </button>
+                        <span id="notification-badge" class="notification-badge absolute top-0 right-0 block h-2.5 w-2.5 sm:h-3 sm:w-3 transform -translate-y-1/3 translate-x-1/3 bg-red-500 rounded-full ring-2 ring-white hidden"></span>
+
+                        <!-- Notification Dropdown Iframe Container -->
+                        <div id="notification-dropdown-container"
+                             class="notification-dropdown absolute top-full right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                            <div class="p-2 border-b border-gray-200">
+                                <h3 class="text-sm font-semibold text-gray-700">Notifications</h3>
+                            </div>
+                            <iframe id="notification-iframe" src="about:blank" class="w-full h-64 sm:h-80 border-0" title="Notifications Content"></iframe>
+                            <div class="p-2 text-center border-t border-gray-200">
+                                <a href="#" class="text-xs text-[#644F9C] hover:underline">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END MODIFIED Notification Icon Area -->
+
+                    <a href="login.html" title="User Profile" class="p-1 transition-transform duration-200 hover:scale-110">
+                        <img
+                                src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/l3g6l4b1_expires_30_days.png"
+                                alt="User Profile"
+                                class="w-[36px] h-[36px] sm:w-[45px] sm:h-[45px] object-cover rounded-full"
+                        />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="bg-[#644F9C] py-12 sm:py-16 md:py-20 lg:py-24 overflow-hidden">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-5 opacity-0-initial animate-popUpScale" style="animation-delay: 0.2s;">
+                    Find & Share Delicious Recipes
+                </h1>
+                <p class="text-white text-base sm:text-lg md:text-xl max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto mb-6 sm:mb-8 opacity-0-initial animate-popUpScale" style="animation-delay: 0.3s;">
+                    Join our community of food lovers and discover recipes that make cooking easy and enjoyable.
+                </p>
+                <div class="max-w-lg lg:max-w-xl mx-auto opacity-0-initial animate-popUpScale" style="animation-delay: 0.4s;">
+                    <div class="flex items-center bg-[#FFFFFF] p-2 sm:p-3 rounded-[6px] border border-solid border-[#CBD5E0] shadow-md focus-within:ring-2 focus-within:ring-[#A78BFA] focus-within:border-[#A78BFA] transition-all duration-200">
+                        <img
+                                src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/8iqxr9mv_expires_30_days.png"
+                                alt="Search Icon"
+                                class="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-gray-400"
+                        />
+                        <input
+                                type="text"
+                                placeholder="Search for recipes, ingredients, or cuisines..."
+                                class="flex-1 text-[#757575] bg-transparent text-sm sm:text-base focus:outline-none placeholder-gray-500"
+                        />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Recipes Section -->
+        <section class="py-10 sm:py-12 md:py-16" id="collections">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-[#000000] text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 opacity-0-initial animate-popUpScale" style="animation-delay: 0.5s;" id="popular-recipes-title">
+                    Popular Recipes (Page <span id="current-page-display">1</span>)
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <!-- Recipe Card 1 -->
+                    <a href="recipe_view.html" class="recipe-card opacity-0-initial animate-popUpScale bg-[#FFFFFF] rounded-[6px] shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0.6s;">
+                        <div class="relative bg-[#E5E7EB] h-[192px] sm:h-[220px] overflow-hidden">
+                            <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/oanplxyz_expires_30_days.png" alt="Vegetable Stir Fry" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"/>
+                            <span class="absolute top-3 right-3 bg-[#3BA66B] text-white text-xs px-2 py-1 rounded-full shadow">30 min</span>
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex items-center mb-2">
+                                <span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#CBD5E0] text-xl sm:text-2xl">★</span>
+                                <span class="text-[#4B5563] text-xs sm:text-sm ml-2">(42)</span>
+                            </div>
+                            <h3 class="text-[#000000] text-lg font-bold mb-1 group-hover:text-[#644F9C] transition-colors duration-200">Vegetable Stir Fry</h3>
+                            <p class="text-[#4B5563] text-sm mb-3 flex-grow">A quick and healthy vegetable stir fry with a delicious sauce.</p>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Vegetarian</span>
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Quick</span>
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Healthy</span>
+                            </div>
+                            <div class="flex items-center mt-auto pt-2 border-t border-gray-200">
+                                <img src="https://via.placeholder.com/32/D1D5DB/808080?text=CM" alt="Chef Maria" class="w-8 h-8 rounded-full mr-2 object-cover">
+                                <span class="text-[#374151] text-sm">Chef Maria</span>
+                                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/rdn5wpb2_expires_30_days.png" alt="Action" class="w-6 h-6 ml-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity"/>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Recipe Card 2 -->
+                    <a href="recipe_view.html" class="recipe-card opacity-0-initial animate-popUpScale bg-[#FFFFFF] rounded-[6px] shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0.7s;">
+                        <div class="relative bg-[#E5E7EB] h-[192px] sm:h-[220px] overflow-hidden">
+                            <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/vtfl8oiq_expires_30_days.png" alt="Classic Pasta Carbonara" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"/>
+                            <span class="absolute top-3 right-3 bg-[#3BA66B] text-white text-xs px-2 py-1 rounded-full shadow">45 min</span>
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex items-center mb-2">
+                                <span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span>
+                                <span class="text-[#4B5563] text-xs sm:text-sm ml-2">(78)</span>
+                            </div>
+                            <h3 class="text-[#000000] text-lg font-bold mb-1 group-hover:text-[#644F9C] transition-colors duration-200">Classic Pasta Carbonara</h3>
+                            <p class="text-[#4B5563] text-sm mb-3 flex-grow">Creamy pasta with bacon, eggs, and parmesan cheese.</p>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Italian</span>
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Pasta</span>
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Comfort Food</span>
+                            </div>
+                            <div class="flex items-center mt-auto pt-2 border-t border-gray-200">
+                                <img src="https://via.placeholder.com/32/D1D5DB/808080?text=CA" alt="Chef Antonio" class="w-8 h-8 rounded-full mr-2 object-cover">
+                                <span class="text-[#374151] text-sm">Chef Antonio</span>
+                                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/1lprykdd_expires_30_days.png" alt="Action" class="w-6 h-6 ml-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity"/>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Recipe Card 3 -->
+                    <a href="recipe_view.html" class="recipe-card opacity-0-initial animate-popUpScale bg-[#FFFFFF] rounded-[6px] shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0.8s;">
+                        <div class="relative bg-[#E5E7EB] h-[192px] sm:h-[220px] overflow-hidden">
+                            <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/5xl5ac49_expires_30_days.png" alt="Chocolate Chip Cookies" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"/>
+                            <span class="absolute top-3 right-3 bg-[#3BA66B] text-white text-xs px-2 py-1 rounded-full shadow">60 min</span>
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex items-center mb-2">
+                                <span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#F6AD55] text-xl sm:text-2xl">★</span><span class="text-[#CBD5E0] text-xl sm:text-2xl">★</span><span class="text-[#CBD5E0] text-xl sm:text-2xl">★</span>
+                                <span class="text-[#4B5563] text-xs sm:text-sm ml-2">(23)</span>
+                            </div>
+                            <h3 class="text-[#000000] text-lg font-bold mb-1 group-hover:text-[#644F9C] transition-colors duration-200">Chocolate Chip Cookies</h3>
+                            <p class="text-[#4B5563] text-sm mb-3 flex-grow">Soft and chewy chocolate chip cookies that are easy to make.</p>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Dessert</span>
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Baking</span>
+                                <span class="bg-[#EDF2F7] text-[#374151] text-xs px-3 py-1 rounded-full group-hover:bg-[#644F9C] group-hover:text-white transition-colors duration-150">Family Friendly</span>
+                            </div>
+                            <div class="flex items-center mt-auto pt-2 border-t border-gray-200">
+                                <img src="https://via.placeholder.com/32/D1D5DB/808080?text=CS" alt="Chef Sarah" class="w-8 h-8 rounded-full mr-2 object-cover">
+                                <span class="text-[#374151] text-sm">Chef Sarah</span>
+                                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/j0k3nru5_expires_30_days.png" alt="Action" class="w-6 h-6 ml-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity"/>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-center mt-10 sm:mt-12 md:mt-16 opacity-0-initial animate-popUpScale" style="animation-delay: 0.9s;">
+                    <div class="flex rounded-[6px] shadow-lg border border-gray-300 divide-x divide-gray-300 overflow-hidden">
+                        <button id="prev-button" class="text-sm sm:text-base px-3 sm:px-4 py-2 bg-white text-[#374151] focus:z-10 transition-all duration-200 ease-in-out transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hover:enabled:bg-gray-100 hover:enabled:scale-105">
+                            Previous
+                        </button>
+                        <div id="pagination-numbers" class="flex divide-x divide-gray-300">
+                        </div>
+                        <button id="next-button" class="text-sm sm:text-base px-3 sm:px-4 py-2 bg-white text-[#374151] focus:z-10 transition-all duration-200 ease-in-out transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hover:enabled:bg-gray-100 hover:enabled:scale-105">
+                            Next
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 opacity-0-initial animate-popUpScale" style="animation-delay: 1s;">
+                    <button id="test-notification-btn">
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="text-center py-8 bg-gray-100 border-t border-gray-200 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.1s;">
+        <p class="text-sm text-gray-600">© 2023 lazy.cook. All rights reserved.</p>
+    </footer>
+</div>
+
+<script>
+    // --- PAGINATION LOGIC ---
+    let currentPage = 1;
+    const totalPages = 5;
+    const popularRecipesTitle = document.getElementById('popular-recipes-title');
+    const currentPageDisplay = document.getElementById('current-page-display');
+
+    function renderPagination() {
+        const paginationNumbersContainer = document.getElementById('pagination-numbers');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        paginationNumbersContainer.innerHTML = '';
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
+
+        let startPage = Math.max(1, currentPage - 1);
+        let endPage = Math.min(totalPages, currentPage + 1);
+        if (totalPages <= 3) { startPage = 1; endPage = totalPages; }
+        else {
+            if (currentPage === 1) { startPage = 1; endPage = 3; }
+            else if (currentPage === totalPages) { startPage = totalPages - 2; endPage = totalPages; }
+        }
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            pageButton.setAttribute('aria-label', `Go to page ${i}`);
+            const baseClasses = ['text-sm', 'sm:text-base', 'px-3', 'sm:px-4', 'py-2', 'transition-all', 'duration-200', 'ease-in-out', 'transform', 'focus:z-10', 'focus:ring-2', 'focus:ring-offset-1', 'focus:ring-[#644F9C]', 'active:scale-95'];
+            pageButton.classList.add(...baseClasses);
+            if (i === currentPage) {
+                pageButton.classList.add('bg-[#644F9C]', 'text-white', 'font-bold', 'relative', 'z-20', 'shadow-md', 'scale-105');
+                pageButton.setAttribute('aria-current', 'page');
+            } else {
+                pageButton.classList.add('bg-white', 'text-[#374151]', 'hover:bg-purple-50', 'hover:text-[#644F9C]', 'hover:scale-105');
+            }
+            pageButton.addEventListener('click', () => setCurrentPage(i));
+            paginationNumbersContainer.appendChild(pageButton);
+        }
+    }
+
+    function simulateContentLoad() {
+        const recipeCards = document.querySelectorAll('.recipe-card');
+        recipeCards.forEach(card => {
+            card.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+        });
+        setTimeout(() => {
+            recipeCards.forEach((card, index) => {
+                const titleElement = card.querySelector('h3');
+                if (titleElement) titleElement.textContent = `Cool Recipe ${String.fromCharCode(65 + Math.floor(Math.random()*5))}${currentPage}`;
+                const timeElement = card.querySelector('.absolute.top-3.right-3');
+                if (timeElement) timeElement.textContent = `${Math.floor(Math.random() * 50) + 20} min`;
+
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.7)';
+                card.classList.remove('animate-popUpScale', 'animate-fadeInUp');
+                void card.offsetWidth;
+                card.classList.add('animate-popUpScale');
+                card.style.animationDelay = `${0.05 + index * 0.08}s`;
+            });
+        }, 200);
+    }
+
+    function setCurrentPage(pageNumber) {
+        if (pageNumber === currentPage) return;
+        currentPage = pageNumber;
+        currentPageDisplay.textContent = currentPage;
+        simulateContentLoad();
+        renderPagination();
+    }
+
+    // --- NOTIFICATION IFRAME LOGIC ---
+    const notificationIconWrapper = document.getElementById('notification-icon-wrapper');
+    const notificationButton = document.getElementById('notification-button'); // We might not need direct interaction if hover only
+    const notificationBadge = document.getElementById('notification-badge');
+    const testNotificationBtn = document.getElementById('test-notification-btn');
+    const notificationDropdownContainer = document.getElementById('notification-dropdown-container');
+    const notificationIframe = document.getElementById('notification-iframe');
+    let hasNewNotification = false;
+    let notificationHoverTimeout;
+    let iframeContentLoaded = false; // Track if iframe content has been loaded
+
+    function showNewNotificationIndicator() {
+        notificationBadge.classList.remove('hidden');
+        notificationBadge.classList.remove('pulsing');
+        void notificationBadge.offsetWidth;
+        notificationBadge.classList.add('pulsing');
+        hasNewNotification = true;
+
+        setTimeout(() => {
+            if (hasNewNotification) { // Only remove pulsing if not clicked/hovered away
+                notificationBadge.classList.remove('pulsing');
+            }
+        }, 4500);
+    }
+
+    function openNotificationDropdown() {
+        if (!iframeContentLoaded) {
+            notificationIframe.src = 'notifications_content.html'; // Load dedicated content page
+            iframeContentLoaded = true; // Mark as loaded
+        } else {
+            // Optional: If you want to "refresh" or ensure it reloads new content
+            // notificationIframe.contentWindow.location.reload();
+            // For this static demo, this is not strictly necessary unless notifications_content.html changes often.
+        }
+
+        notificationDropdownContainer.classList.add('active');
+
+        // If there was a new notification, mark it as seen
+        if(hasNewNotification) {
+            notificationBadge.classList.add('hidden');
+            notificationBadge.classList.remove('pulsing');
+            hasNewNotification = false;
+        }
+    }
+
+    function closeNotificationDropdown() {
+        notificationDropdownContainer.classList.remove('active');
+    }
+
+    notificationIconWrapper.addEventListener('mouseenter', () => {
+        clearTimeout(notificationHoverTimeout);
+        openNotificationDropdown();
+    });
+
+    notificationIconWrapper.addEventListener('mouseleave', () => {
+        notificationHoverTimeout = setTimeout(() => {
+            if (!notificationDropdownContainer.matches(':hover')) {
+                closeNotificationDropdown();
+            }
+        }, 300); // Give some time to move into the dropdown
+    });
+
+    notificationDropdownContainer.addEventListener('mouseenter', () => {
+        clearTimeout(notificationHoverTimeout); // User is interacting with dropdown
+    });
+
+    notificationDropdownContainer.addEventListener('mouseleave', () => {
+        notificationHoverTimeout = setTimeout(() => {
+            closeNotificationDropdown();
+        }, 300);
+    });
+
+    testNotificationBtn.addEventListener('click', () => {
+        showNewNotificationIndicator();
+        // If you want it to auto-open for the test, uncomment next line
+        // openNotificationDropdown();
+    });
+
+    // --- Init Page ---
+    // (Rest of the existing DOMContentLoaded code like pagination setup)
+    document.addEventListener('DOMContentLoaded', () => {
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) setCurrentPage(currentPage - 1);
+        });
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+        });
+        if (currentPageDisplay) currentPageDisplay.textContent = currentPage;
+        renderPagination();
+    });
+
+    // --- Init Page ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) setCurrentPage(currentPage - 1);
+        });
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+        });
+        if (currentPageDisplay) currentPageDisplay.textContent = currentPage;
+        renderPagination();
+    });
+</script>
+
+</body>
+</html>
