@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Collection - LazyCook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    .main-content-area::-webkit-scrollbar { width: 8px; }
+    .main-content-area::-webkit-scrollbar-thumb { background-color: #A0AEC0; border-radius: 4px; }
+    .main-content-area::-webkit-scrollbar-track { background-color: #EDF2F7; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popUpScale {
+      0% { opacity: 0; transform: scale(0.7); }
+      60% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse-sm {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+    .animate-popUpScale { animation: popUpScale 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+    .opacity-0-initial { opacity: 0; }
+
+    .header-link::after { content: ''; display: block; width: 0; height: 2px; background: #644F9C; transition: width .3s ease-in-out; }
+    .header-link:hover::after, .header-link-active::after { width: 100%; }
+
+    .sidebar-link:hover span:first-child,
+    .sidebar-link:hover span:last-child { transform: scale(1.1) translateX(3px); }
+
+    .sidebar-link-active { /* Active state for sidebar links on this page */
+      --tw-gradient-from: #8B5CF6;
+      --tw-gradient-to: #4F46E5;
+      --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      background-image: linear-gradient(to right, var(--tw-gradient-stops));
+      color: white;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    }
+    .sidebar-link-active span { font-weight: bold; }
+
+    .notification-badge.pulsing { animation: pulse-sm 1.5s ease-in-out 3; }
+    .notification-dropdown { opacity: 0; transform: translateY(10px) scale(0.95); transition: opacity 0.2s ease-out, transform 0.2s ease-out; pointer-events: none; }
+    .notification-dropdown.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .notification-dropdown::before { content: ""; position: absolute; bottom: 100%; right: 10px; margin-left: -5px; border-width: 6px; border-style: solid; border-color: transparent transparent white transparent; filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.05)); }
+    .rounded-6px { border-radius: 6px; }
+  </style>
+</head>
+<body class="bg-[#F9FAFB]">
+<div class="flex flex-col min-h-screen relative">
+  <div class="absolute top-0 left-0 w-60 h-60 sm:w-80 sm:h-80 bg-[#644F9C]/5 rounded-full -z-10 transform -translate-x-1/4 -translate-y-1/4 opacity-50"></div>
+  <div class="absolute bottom-0 right-0 w-52 h-52 sm:w-72 sm:h-72 bg-[#16A51D]/5 rounded-full -z-10 transform translate-x-1/4 translate-y-1/4 opacity-50"></div>
+
+  <header class="bg-white shadow-sm sticky top-0 z-40 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">lazy.cook</a>
+        <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
+          <a href="index.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
+          <a href="dashboard.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Dashboard</a>
+          <a href="create_recipe_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
+        </nav>
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <div id="collectionview-notification-icon-wrapper" class="relative">
+            <button id="collectionview-notification-button" title="Notifications" class="p-1 transition-transform duration-200 hover:scale-110 focus:outline-none">
+              <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/fle87g92_expires_30_days.png" alt="Notifications" class="w-[20px] h-[25px] sm:w-[24px] sm:h-[30px] object-contain"/>
+            </button>
+            <span id="collectionview-notification-badge" class="notification-badge absolute top-0 right-0 block h-2.5 w-2.5 sm:h-3 sm:w-3 transform -translate-y-1/3 translate-x-1/3 bg-red-500 rounded-full ring-2 ring-white hidden"></span>
+            <div id="collectionview-notification-dropdown-container" class="notification-dropdown absolute top-full right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+              <div class="p-2 border-b border-gray-200"><h3 class="text-sm font-semibold text-gray-700">Notifications</h3></div>
+              <iframe id="collectionview-notification-iframe" src="about:blank" class="w-full h-64 sm:h-80 border-0" title="Notifications Content"></iframe>
+              <div class="p-2 text-center border-t border-gray-200"><a href="#" class="text-xs text-[#644F9C] hover:underline">View all notifications</a></div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/6qy3pc1x_expires_30_days.png" alt="User Avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-transparent hover:border-[#644F9C]">
+            <span class="hidden sm:inline text-[#374151] text-sm font-semibold">User Name</span>
+          </div>
+        </div>
+        <div class="md:hidden">
+          <button class="text-gray-600 hover:text-[#644F9C] p-2" onclick="alert('Mobile menu (not functional)')">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 flex flex-col lg:flex-row">
+    <aside class="w-full lg:w-64 xl:w-72 bg-white shadow-lg lg:shadow-none lg:border-r border-gray-200 p-4 sm:p-6 shrink-0">
+      <div class="flex items-center space-x-4 mb-8 opacity-0-initial animate-popUpScale" style="animation-delay: 0.2s;">
+        <div class="bg-[#EDF2F7] w-16 h-16 rounded-full flex items-center justify-center text-[#2D3748] text-2xl font-semibold shrink-0 transform transition-transform duration-200 hover:scale-110">UN</div>
+        <div>
+          <h3 class="text-[#2D3748] text-base font-bold">User Name</h3>
+          <p class="text-[#718096] text-xs sm:text-sm truncate">user@example.com</p>
+        </div>
+      </div>
+      <nav class="space-y-1">
+        <a href="dashboard.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <span class="text-xl">🏠</span> <span class="text-sm font-semibold">Dashboard</span>
+        </a>
+        <a href="profile.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <span class="text-xl">👤</span> <span class="text-sm font-semibold">Profile</span>
+        </a>
+        <a href="my_recipes.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <span class="text-xl">📖</span> <span class="text-sm font-semibold">My Recipes</span>
+        </a>
+        <a href="collections.html" class="sidebar-link sidebar-link-active flex items-center space-x-3 px-4 py-3 rounded-6px transition-all duration-200 ease-in-out"> <!-- Collections is still the parent section -->
+          <span class="text-xl">📚</span> <span class="text-sm font-semibold">Collections</span>
+        </a>
+        <hr class="my-4 border-gray-300">
+        <a href="settings.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <span class="text-xl">⚙️</span> <span class="text-sm font-semibold">Settings</span>
+        </a>
+        <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
+          <span class="text-xl">🚪</span> <span class="text-sm font-semibold">Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto main-content-area" style="background: linear-gradient(to bottom, rgba(100, 79, 156, 0.10) 0%, rgba(100, 79, 156, 0.03) 30%, transparent 60%);">
+      <section class="mb-8 sm:mb-10 opacity-0-initial animate-popUpScale" style="animation-delay: 0.3s;">
+        <div class="flex items-center mb-4">
+          <a href="collections.html" class="text-[#644F9C] hover:text-purple-800 mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </a>
+          <div>
+            <h1 id="collectionTitle" class="text-[#2D3748] text-2xl sm:text-3xl font-bold">Collection Name</h1>
+            <p id="collectionRecipeCount" class="text-[#718096] text-base">X recipes</p>
+          </div>
+        </div>
+        <p id="collectionDescription" class="text-gray-600 text-sm mb-6">Description of the collection goes here. It can be a few sentences long.</p>
+        <button class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-6px transition-colors">Edit Collection Details</button>
+      </section>
+
+      <section class="opacity-0-initial animate-fadeInUp" style="animation-delay: 0.5s;">
+        <h2 class="text-[#2D3748] text-xl font-semibold mb-6">Recipes in this Collection</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Example Recipe Card (from my_recipes.html structure) -->
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300">
+            <a href="recipe_view.html" class="block">
+              <div class="relative h-40 sm:h-48 overflow-hidden">
+                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/example_recipe_1_expires_30_days.png" alt="Recipe Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-[#2D3748] text-md font-bold mb-1 group-hover:text-[#644F9C] transition-colors">Spicy Tomato Pasta</h3>
+                <p class="text-gray-500 text-xs mb-2">Quick & Easy | 30 mins</p>
+                <div class="flex justify-between items-center text-xs text-gray-500 mt-auto">
+                  <span>Likes: 120</span>
+                  <span>Comments: 15</span>
+                </div>
+              </div>
+            </a>
+            <div class="p-3 border-t border-gray-200">
+              <button class="text-xs bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-6px transition-colors w-full" onclick="alert('Remove from collection?')">Remove from Collection</button>
+            </div>
+          </div>
+          <!-- Another Example Recipe Card -->
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300">
+            <a href="recipe_view.html" class="block">
+              <div class="relative h-40 sm:h-48 overflow-hidden">
+                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/example_recipe_2_expires_30_days.png" alt="Avocado Toast Deluxe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-[#2D3748] text-md font-bold mb-1 group-hover:text-[#644F9C] transition-colors">Avocado Toast Deluxe</h3>
+                <p class="text-gray-500 text-xs mb-2">Breakfast | 10 mins</p>
+                <div class="flex justify-between items-center text-xs text-gray-500 mt-auto">
+                  <span>Likes: 85</span>
+                  <span>Comments: 7</span>
+                </div>
+              </div>
+            </a>
+            <div class="p-3 border-t border-gray-200">
+              <button class="text-xs bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-6px transition-colors w-full" onclick="alert('Remove from collection?')">Remove from Collection</button>
+            </div>
+          </div>
+          <!-- Placeholder if no recipes in collection -->
+          <p id="noRecipesInCollectionMessage" class="text-gray-500 col-span-full text-center py-10 hidden">This collection is empty. <a href="my_recipes.html" class="text-[#644F9C] hover:underline">Add some recipes!</a></p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer class="text-center py-4 bg-gray-100 border-t border-gray-200 text-xs text-gray-500 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.0s;">
+    © 2023 lazy.cook. All rights reserved.
+  </footer>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const collectionTitleElement = document.getElementById('collectionTitle');
+    const collectionRecipeCountElement = document.getElementById('collectionRecipeCount');
+    const collectionDescriptionElement = document.getElementById('collectionDescription');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const collectionName = urlParams.get('name') || 'Selected Collection'; // Get name from URL
+
+    collectionTitleElement.textContent = collectionName;
+
+    // Mock data - in a real app, you'd fetch this
+    const mockCollectionsData = {
+      "Italian Cuisine": { recipes: 8, description: "Authentic Italian dishes for every occasion." },
+      "Quick Meals": { recipes: 5, description: "Fast and easy recipes for busy days." },
+      "Healthy Options": { recipes: 7, description: "Nutritious and delicious meals to feel good." }
+    };
+
+    const currentCollectionData = mockCollectionsData[collectionName] || { recipes: 0, description: "No description available." };
+    collectionRecipeCountElement.textContent = `${currentCollectionData.recipes} recipes`;
+    collectionDescriptionElement.textContent = currentCollectionData.description;
+
+    // Logic to show/hide "no recipes" message can be added here
+    // based on actual recipes loaded for the collection.
+
+    // Notification Script
+    // ... (adapt as in other pages)
+  });
+</script>
+</body>
+</html>
