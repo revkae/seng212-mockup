@@ -32,8 +32,10 @@
     .header-link::after { content: ''; display: block; width: 0; height: 2px; background: #644F9C; transition: width .3s ease-in-out; }
     .header-link:hover::after, .header-link-active::after { width: 100%; }
 
-    .sidebar-link:hover span:first-child,
+    .sidebar-link svg,
     .sidebar-link:hover span:last-child { transform: scale(1.1) translateX(3px); }
+    .sidebar-link:hover svg { transform: scale(1.1) translateX(3px); }
+
 
     .sidebar-link-active {
       --tw-gradient-from: #8B5CF6; /* purple-500 */
@@ -43,7 +45,7 @@
       color: white;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
     }
-    .sidebar-link-active span {
+    .sidebar-link-active span, .sidebar-link-active svg {
       font-weight: bold;
     }
 
@@ -124,28 +126,28 @@
       </div>
       <nav class="space-y-1">
         <a href="dashboard.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">🏠</span>
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Dashboard</span>
         </a>
         <a href="profile.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">👤</span>
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Profile</span>
         </a>
         <a href="my_recipes.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">📖</span>
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 16c1.255 0 2.443-.29 3.5-.804V4.804zM14.5 4c1.255 0 2.443.29 3.5.804v10A7.969 7.969 0 0114.5 16c-1.255 0-2.443-.29-3.5-.804V4.804A7.968 7.968 0 0114.5 4z"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">My Recipes</span>
         </a>
         <a href="collections.html" class="sidebar-link sidebar-link-active flex items-center space-x-3 px-4 py-3 rounded-6px transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">📚</span>
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Collections</span>
         </a>
         <hr class="my-4 border-gray-300">
         <a href="settings.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">⚙️</span>
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.566 2.6 1.566 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.566-.379 1.566-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Settings</span>
         </a>
         <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">🚪</span>
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Logout</span>
         </a>
       </nav>
@@ -227,13 +229,13 @@
       </div>
     </div>
   </div>
-  <!-- End Create Collection Modal -->
 
   <footer class="text-center py-4 bg-gray-100 border-t border-gray-200 text-xs text-gray-500 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.0s;">
     © 2023 lazy.cook. All rights reserved.
   </footer>
 </div>
 <script>
+  // (JavaScript remains the same as previous version for collections.html)
   document.addEventListener('DOMContentLoaded', () => {
     const createCollectionModal = document.getElementById('createCollectionModal');
     const createCollectionDialog = document.getElementById('createCollectionDialog');
@@ -251,7 +253,6 @@
       const collectionCards = collectionCardGrid.querySelectorAll('.collection-card');
       if (collectionCards.length === 0) {
         noCollectionsMessage.classList.remove('hidden');
-        // Hide the "Add Collection Card" button if there are no collections and the message is shown
         if (openCreateCollectionModalBtnCard) openCreateCollectionModalBtnCard.classList.add('hidden');
       } else {
         noCollectionsMessage.classList.add('hidden');
@@ -277,8 +278,8 @@
 
     document.querySelectorAll('.delete-collection-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent link navigation if button is inside <a>
-        e.stopPropagation(); // Prevent card click
+        e.preventDefault();
+        e.stopPropagation();
         confirmDeleteCollection(btn);
       });
     });
@@ -314,9 +315,8 @@
     cancelCreateCollectionBtn.addEventListener('click', closeCreateCollectionModal);
 
     saveCreateCollectionBtn.addEventListener('click', () => {
-      // For mockup: simulate adding a new collection card
-      const newCollectionName = "My New Awesome Collection"; // In real app, get from iframe
-      const newCollectionCard = `
+      const newCollectionName = "My New Awesome Collection";
+      const newCollectionCardHTML = `
             <div class="collection-card opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0s;">
                 <div class="relative">
                     <div class="h-36 sm:h-40 overflow-hidden bg-gray-200 flex items-center justify-center">
@@ -332,24 +332,20 @@
                     <a href="collection_view.html?name=${encodeURIComponent(newCollectionName)}" class="text-[#644F9C] text-sm font-semibold hover:underline group-hover:text-pink-500 transition-colors mt-auto">View Collection →</a>
                 </div>
             </div>`;
-      // Insert before the "Add Collection" button/card
       const addCardButton = document.getElementById('openCreateCollectionModalBtnCard');
       if (addCardButton) {
-        addCardButton.insertAdjacentHTML('beforebegin', newCollectionCard);
+        addCardButton.insertAdjacentHTML('beforebegin', newCollectionCardHTML);
         const justAddedCard = addCardButton.previousElementSibling;
-        // Re-attach delete listener to new card
         justAddedCard.querySelector('.delete-collection-btn').addEventListener('click', (e) => {
           e.preventDefault(); e.stopPropagation(); confirmDeleteCollection(justAddedCard.querySelector('.delete-collection-btn'));
         });
-
-      } else { // If addCardButton was hidden because no collections existed initially
-        collectionCardGrid.insertAdjacentHTML('beforeend', newCollectionCard);
+      } else {
+        collectionCardGrid.insertAdjacentHTML('beforeend', newCollectionCardHTML);
         const justAddedCard = collectionCardGrid.lastElementChild;
         justAddedCard.querySelector('.delete-collection-btn').addEventListener('click', (e) => {
           e.preventDefault(); e.stopPropagation(); confirmDeleteCollection(justAddedCard.querySelector('.delete-collection-btn'));
         });
       }
-
       alert('Collection created (mockup)!');
       updateNoCollectionsMessage();
       closeCreateCollectionModal();
@@ -366,14 +362,42 @@
         closeCreateCollectionModal();
       }
     });
+    updateNoCollectionsMessage();
 
-    updateNoCollectionsMessage(); // Initial check on page load
-
-    // Notification Script (Simplified)
     const notificationIconWrapper = document.getElementById('collections-notification-icon-wrapper');
     const notificationDropdownContainer = document.getElementById('collections-notification-dropdown-container');
+    const notificationIframe = document.getElementById('collections-notification-iframe');
+    let notificationHoverTimeout;
+    let iframeContentLoaded = false;
+
+    function openNotificationDropdown() {
+      if (!iframeContentLoaded) {
+        if(notificationIframe) notificationIframe.src = 'notifications_content.html';
+        iframeContentLoaded = true;
+      }
+      if(notificationDropdownContainer) notificationDropdownContainer.classList.add('active');
+    }
+    function closeNotificationDropdown() {
+      if(notificationDropdownContainer) notificationDropdownContainer.classList.remove('active');
+    }
+
     if (notificationIconWrapper && notificationDropdownContainer) {
       // ... (rest of notification script as in my_recipes.html)
+      notificationIconWrapper.addEventListener('mouseenter', () => {
+        clearTimeout(notificationHoverTimeout);
+        openNotificationDropdown();
+      });
+      notificationIconWrapper.addEventListener('mouseleave', () => {
+        notificationHoverTimeout = setTimeout(() => {
+          if (!notificationDropdownContainer.matches(':hover')) {
+            closeNotificationDropdown();
+          }
+        }, 300);
+      });
+      notificationDropdownContainer.addEventListener('mouseenter', () => { clearTimeout(notificationHoverTimeout); });
+      notificationDropdownContainer.addEventListener('mouseleave', () => {
+        notificationHoverTimeout = setTimeout(closeNotificationDropdown, 300);
+      });
     }
   });
 </script>

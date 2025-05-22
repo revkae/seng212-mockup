@@ -32,19 +32,21 @@
         .header-link::after { content: ''; display: block; width: 0; height: 2px; background: #644F9C; transition: width .3s ease-in-out; }
         .header-link:hover::after, .header-link-active::after { width: 100%; }
 
-        .sidebar-link:hover span:first-child,
+        .sidebar-link svg,
         .sidebar-link:hover span:last-child { transform: scale(1.1) translateX(3px); }
+        .sidebar-link:hover svg { transform: scale(1.1) translateX(3px); }
 
         .sidebar-link-active {
-            --tw-gradient-from: #8B5CF6;
-            --tw-gradient-to: #4F46E5;
+            --tw-gradient-from: #8B5CF6; /* purple-500 */
+            --tw-gradient-to: #4F46E5;   /* indigo-600 */
             --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
             background-image: linear-gradient(to right, var(--tw-gradient-stops));
             color: white;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* shadow-lg */
         }
-        .sidebar-link-active span {
-            font-weight: bold;
+        .sidebar-link-active span, .sidebar-link-active svg {
+            font-weight: bold; /* For text */
+            /* SVGs inherit color, so white text color above applies */
         }
 
         .notification-badge.pulsing { animation: pulse-sm 1.5s ease-in-out 3; }
@@ -66,6 +68,7 @@
             border-color: transparent transparent white transparent;
             filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.05));
         }
+        .rounded-6px { border-radius: 6px; }
     </style>
 </head>
 <body class="bg-[#F9FAFB]">
@@ -82,7 +85,7 @@
                 <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
                     <a href="index.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
                     <a href="dashboard.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Dashboard</a>
-                    <a href="create_recipe_part1.html" class="text-white bg-[#4F9C78] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
+                    <a href="create_recipe_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
                 </nav>
                 <div class="flex items-center space-x-3 sm:space-x-4">
                     <div id="profile-notification-icon-wrapper" class="relative">
@@ -122,29 +125,29 @@
                 </div>
             </div>
             <nav class="space-y-1">
-                <a href="dashboard.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-                    <span class="text-xl transition-transform duration-200 ease-out">🏠</span>
+                <a href="dashboard.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+                    <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">Dashboard</span>
                 </a>
-                <a href="profile.html" class="sidebar-link sidebar-link-active flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ease-in-out">
-                    <span class="text-xl transition-transform duration-200 ease-out">👤</span>
+                <a href="profile.html" class="sidebar-link sidebar-link-active flex items-center space-x-3 px-4 py-3 rounded-6px transition-all duration-200 ease-in-out">
+                    <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">Profile</span>
                 </a>
-                <a href="my_recipes.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-                    <span class="text-xl transition-transform duration-200 ease-out">📖</span>
+                <a href="my_recipes.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+                    <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 16c1.255 0 2.443-.29 3.5-.804V4.804zM14.5 4c1.255 0 2.443.29 3.5.804v10A7.969 7.969 0 0114.5 16c-1.255 0-2.443-.29-3.5-.804V4.804A7.968 7.968 0 0114.5 4z"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">My Recipes</span>
                 </a>
-                <a href="collections.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-                    <span class="text-xl transition-transform duration-200 ease-out">📚</span>
+                <a href="collections.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+                    <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">Collections</span>
                 </a>
                 <hr class="my-4 border-gray-300">
-                <a href="settings.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-                    <span class="text-xl transition-transform duration-200 ease-out">⚙️</span>
+                <a href="settings.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+                    <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.566 2.6 1.566 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.566-.379 1.566-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">Settings</span>
                 </a>
-                <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
-                    <span class="text-xl transition-transform duration-200 ease-out">🚪</span>
+                <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
+                    <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">Logout</span>
                 </a>
             </nav>
@@ -166,7 +169,7 @@
                             <h2 class="text-[#2D3748] text-2xl font-bold">User Name</h2>
                             <p class="text-purple-600 font-semibold">@username</p>
                             <p class="text-gray-500 text-sm mt-1">Joined: January 1, 2023</p>
-                            <button class="mt-3 bg-purple-500 hover:bg-purple-600 text-white text-xs font-semibold py-1 px-3 rounded-md transition-colors">Edit Profile Picture</button>
+                            <button class="mt-3 bg-[#644f9c] hover:bg-opacity-90 text-white text-xs font-semibold py-1.5 px-3 rounded-6px transition-colors">Edit Profile Picture</button>
                         </div>
                     </div>
 
@@ -185,7 +188,7 @@
                         </div>
                     </div>
                     <div class="mt-8 border-t pt-6">
-                        <button type="button" class="bg-[#644F9C] text-white font-semibold py-2 px-6 rounded-md hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#644F9C]">
+                        <button type="button" class="bg-[#3ba66b] text-white font-semibold py-2 px-6 rounded-6px hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3ba66b]">
                             Edit Profile Details
                         </button>
                     </div>
@@ -201,8 +204,6 @@
     // Simplified Notification Script for profile page
     const profileNotificationIconWrapper = document.getElementById('profile-notification-icon-wrapper');
     // ... (rest of the notification script adapted for profile IDs if needed)
-    // For brevity, I'm assuming similar notification functionality can be adapted.
-    // You can copy and adapt the full script from settings.html, renaming variables/IDs with 'profile-'.
 </script>
 </body>
 </html>
