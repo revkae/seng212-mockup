@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Recipe Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      background-color: #fff; /* Ensure iframe has a background */
+      padding: 1.5rem; /* 24px / 6 * 0.25rem */
+    }
+    .rounded-6px { border-radius: 6px; }
+    /* Custom scrollbar for iframe content if it overflows */
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-thumb { background-color: #A0AEC0; border-radius: 4px; }
+    body::-webkit-scrollbar-track { background-color: #EDF2F7; }
+  </style>
+</head>
+<body>
+<form id="editRecipeActualForm" class="space-y-6">
+  <div>
+    <label for="recipeName" class="block text-sm font-medium text-gray-700 mb-1">Recipe Name</label>
+    <input type="text" name="recipeName" id="recipeName" value="[Loaded Recipe Name]"
+           class="w-full text-gray-700 placeholder:text-gray-500 bg-white text-base py-2 px-3 rounded-6px border border-solid border-gray-300 focus:ring-2 focus:ring-[#644f9c] focus:border-transparent outline-none">
+  </div>
+  <div>
+    <label for="recipeCategory" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+    <select id="recipeCategory" name="recipeCategory"
+            class="w-full text-gray-700 bg-white text-base py-2 px-3 rounded-6px border border-solid border-gray-300 focus:ring-2 focus:ring-[#644f9c] focus:border-transparent outline-none">
+      <option>Quick & Easy</option>
+      <option selected>Breakfast</option>
+      <option>Dinner</option>
+      <option>Dessert</option>
+    </select>
+  </div>
+  <div>
+    <label for="recipePrepTime" class="block text-sm font-medium text-gray-700 mb-1">Prep Time</label>
+    <input type="text" name="recipePrepTime" id="recipePrepTime" value="[Loaded Prep Time]"
+           class="w-full text-gray-700 placeholder:text-gray-500 bg-white text-base py-2 px-3 rounded-6px border border-solid border-gray-300 focus:ring-2 focus:ring-[#644f9c] focus:border-transparent outline-none">
+  </div>
+  <div>
+    <label for="recipeDescription" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+    <textarea name="recipeDescription" id="recipeDescription" rows="4"
+              class="w-full text-gray-700 placeholder:text-gray-500 bg-white text-base py-2 px-3 rounded-6px border border-solid border-gray-300 focus:ring-2 focus:ring-[#644f9c] focus:border-transparent outline-none">[Loaded Description]</textarea>
+  </div>
+  <div>
+    <label for="recipeIngredients" class="block text-sm font-medium text-gray-700 mb-1">Ingredients (one per line)</label>
+    <textarea name="recipeIngredients" id="recipeIngredients" rows="6"
+              class="w-full text-gray-700 placeholder:text-gray-500 bg-white text-base py-2 px-3 rounded-6px border border-solid border-gray-300 focus:ring-2 focus:ring-[#644f9c] focus:border-transparent outline-none">[Loaded Ingredients]</textarea>
+  </div>
+  <div>
+    <label for="recipeInstructions" class="block text-sm font-medium text-gray-700 mb-1">Instructions</label>
+    <textarea name="recipeInstructions" id="recipeInstructions" rows="8"
+              class="w-full text-gray-700 placeholder:text-gray-500 bg-white text-base py-2 px-3 rounded-6px border border-solid border-gray-300 focus:ring-2 focus:ring-[#644f9c] focus:border-transparent outline-none">[Loaded Instructions]</textarea>
+  </div>
+  <div>
+    <label for="recipeImageUpload" class="block text-sm font-medium text-gray-700 mb-1">Recipe Image</label>
+    <input type="file" name="recipeImageUpload" id="recipeImageUpload"
+           class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-6px file:border-0 file:text-sm file:font-semibold file:bg-[#644f9c] file:text-white hover:file:bg-opacity-90 cursor-pointer">
+    <p class="text-xs text-gray-500 mt-1">Current image: <span id="currentImageName">[current_image.jpg]</span> (Leave empty to keep current image)</p>
+  </div>
+</form>
+<script>
+  // This script would typically be more involved:
+  // 1. Get recipe ID from URL query parameter.
+  // 2. Fetch recipe data based on ID.
+  // 3. Populate the form fields with fetched data.
+  // On "Save" (if buttons were in iframe), it would collect form data and send an update request.
+
+  // For mockup purposes, let's just simulate loading data based on the title (passed via URL if we were doing it fully)
+  const urlParams = new URLSearchParams(window.location.search);
+  const recipeTitleFromQuery = urlParams.get('title'); // Example: if iframe src was 'edit_recipe.html?title=Spicy%20Tomato%20Pasta'
+
+  const recipeNameInput = document.getElementById('recipeName');
+  // This is a very simplified example. A real app would fetch full data.
+  if (recipeTitleFromQuery) {
+    recipeNameInput.value = recipeTitleFromQuery;
+  } else {
+    // Fallback if no title passed, use a generic one.
+    // This would be based on the data attribute from the button that opened the modal.
+    // For simplicity, we'll keep it generic.
+    // The parent page my_recipes.html now sets the modal's title, so this page
+    // would ideally receive and display the actual recipe's data.
+    const placeholderName = "Example Recipe from Iframe";
+    recipeNameInput.value = placeholderName;
+    document.getElementById('recipeDescription').value = "Description for " + placeholderName;
+    document.getElementById('recipePrepTime').value = "20 mins";
+    document.getElementById('recipeIngredients').value = "Ingredient 1\nIngredient 2";
+    document.getElementById('recipeInstructions').value = "Step 1\nStep 2";
+  }
+</script>
+</body>
+</html>
