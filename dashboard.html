@@ -32,8 +32,12 @@
     .header-link::after { content: ''; display: block; width: 0; height: 2px; background: #644F9C; transition: width .3s ease-in-out; }
     .header-link:hover::after, .header-link-active::after { width: 100%; }
 
-    .sidebar-link:hover span:first-child,
+    .sidebar-link svg, /* Target SVGs directly */
     .sidebar-link:hover span:last-child { transform: scale(1.1) translateX(3px); }
+    .sidebar-link:hover svg { /* Ensure SVG scales too on hover */
+      transform: scale(1.1) translateX(3px);
+    }
+
 
     .notification-badge.pulsing { animation: pulse-sm 1.5s ease-in-out 3; } /* For notification badge */
 
@@ -55,6 +59,7 @@
       border-color: transparent transparent white transparent;
       filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.05));
     }
+    .rounded-6px { border-radius: 6px; }
 
   </style>
 </head>
@@ -72,7 +77,7 @@
         <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
           <a href="index.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
           <a href="dashboard.html" class="header-link header-link-active text-[#644F9C] text-base font-bold px-2 py-2">Dashboard</a>
-          <a href="create_recipe_part1.html" class="text-white bg-[#4F9C78] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
+          <a href="create_recipe_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
         </nav>
         <div class="flex items-center space-x-3 sm:space-x-4">
           <!-- Notification Area for Dashboard -->
@@ -114,29 +119,29 @@
         </div>
       </div>
       <nav class="space-y-1">
-        <a href="dashboard.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-lg transform hover:scale-105 transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">🏠</span>
+        <a href="dashboard.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-lg transform hover:scale-105 transition-all duration-200 ease-in-out">
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
           <span class="text-sm font-bold transition-transform duration-200 ease-out">Dashboard</span>
         </a>
-        <a href="profile.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">👤</span>
+        <a href="profile.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Profile</span>
         </a>
-        <a href="my_recipes.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">📖</span>
+        <a href="my_recipes.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 16c1.255 0 2.443-.29 3.5-.804V4.804zM14.5 4c1.255 0 2.443.29 3.5.804v10A7.969 7.969 0 0114.5 16c-1.255 0-2.443-.29-3.5-.804V4.804A7.968 7.968 0 0114.5 4z"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">My Recipes</span>
         </a>
-        <a href="collections.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">📚</span>
+        <a href="collections.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Collections</span>
         </a>
         <hr class="my-4 border-gray-300">
-        <a href="settings.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">⚙️</span>
+        <a href="settings.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.566 2.6 1.566 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.566-.379 1.566-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Settings</span>
         </a>
-        <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
-          <span class="text-xl transition-transform duration-200 ease-out">🚪</span>
+        <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
+          <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Logout</span>
         </a>
       </nav>
@@ -192,45 +197,45 @@
         <h2 class="text-[#2D3748] text-xl sm:text-2xl font-bold mb-6 opacity-0-initial animate-popUpScale" style="animation-delay: 0.7s;">Your Collections</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <!-- Collection Card 1 -->
-          <a href="recipe_view.html" class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0.8s;">
+          <a href="collection_view.html?name=Italian Cuisine" class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0.8s;">
             <div class="relative h-36 sm:h-40 overflow-hidden">
               <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/3ksbbu44_expires_30_days.png" alt="Italian Cuisine Collection" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"/>
               <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
             </div>
             <div class="p-4 flex flex-col flex-grow">
-              <h3 class="text-[#2D3748] text-base font-bold mb-1 group-hover:text-[#6B46C1] transition-colors">Italian Cuisine</h3>
+              <h3 class="text-[#2D3748] text-base font-bold mb-1 group-hover:text-[#644F9C] transition-colors">Italian Cuisine</h3>
               <p class="text-[#718096] text-xs sm:text-sm mb-2 flex-grow">8 recipes</p>
-              <span class="text-[#6B46C1] text-sm font-semibold hover:underline group-hover:text-pink-500 transition-colors mt-auto">View Collection →</span>
+              <span class="text-[#644F9C] text-sm font-semibold hover:underline group-hover:text-pink-500 transition-colors mt-auto">View Collection →</span>
             </div>
           </a>
 
           <!-- Collection Card 2 -->
-          <a href="recipe_view.html" class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0.9s;">
+          <a href="collection_view.html?name=Quick Meals" class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 0.9s;">
             <div class="relative h-36 sm:h-40 overflow-hidden">
               <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/vne9lfmu_expires_30_days.png" alt="Quick Meals Collection" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"/>
               <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
             </div>
             <div class="p-4 flex flex-col flex-grow">
-              <h3 class="text-[#2D3748] text-base font-bold mb-1 group-hover:text-[#6B46C1] transition-colors">Quick Meals</h3>
+              <h3 class="text-[#2D3748] text-base font-bold mb-1 group-hover:text-[#644F9C] transition-colors">Quick Meals</h3>
               <p class="text-[#718096] text-xs sm:text-sm mb-2 flex-grow">5 recipes</p>
-              <span class="text-[#6B46C1] text-sm font-semibold hover:underline group-hover:text-pink-500 transition-colors mt-auto">View Collection →</span>
+              <span class="text-[#644F9C] text-sm font-semibold hover:underline group-hover:text-pink-500 transition-colors mt-auto">View Collection →</span>
             </div>
           </a>
 
           <!-- Collection Card 3 -->
-          <a href="recipe_view.html" class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 1.0s;">
+          <a href="collection_view.html?name=Healthy Options" class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out" style="animation-delay: 1.0s;">
             <div class="relative h-36 sm:h-40 overflow-hidden">
               <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/1nnle9ln_expires_30_days.png" alt="Healthy Options Collection" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"/>
               <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
             </div>
             <div class="p-4 flex flex-col flex-grow">
-              <h3 class="text-[#2D3748] text-base font-bold mb-1 group-hover:text-[#6B46C1] transition-colors">Healthy Options</h3>
+              <h3 class="text-[#2D3748] text-base font-bold mb-1 group-hover:text-[#644F9C] transition-colors">Healthy Options</h3>
               <p class="text-[#718096] text-xs sm:text-sm mb-2 flex-grow">7 recipes</p>
-              <span class="text-[#6B46C1] text-sm font-semibold hover:underline group-hover:text-pink-500 transition-colors mt-auto">View Collection →</span>
+              <span class="text-[#644F9C] text-sm font-semibold hover:underline group-hover:text-pink-500 transition-colors mt-auto">View Collection →</span>
             </div>
           </a>
           <!-- Add Collection Card -->
-          <button class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl flex flex-col items-center justify-center p-4 h-full min-h-[220px] sm:min-h-[240px] border-2 border-dashed border-gray-300 hover:border-purple-500 hover:text-purple-600 transition-all duration-300 ease-out text-gray-500 group transform hover:scale-105" style="animation-delay: 1.1s;" onclick="alert('Create a new collection.')">
+          <button class="opacity-0-initial animate-popUpScale bg-white rounded-xl shadow-xl flex flex-col items-center justify-center p-4 h-full min-h-[220px] sm:min-h-[240px] border-2 border-dashed border-gray-300 hover:border-[#644f9c] hover:text-[#644f9c] transition-all duration-300 ease-out text-gray-500 group transform hover:scale-105" style="animation-delay: 1.1s;" onclick="openCreateCollectionModalFromDashboard()">
             <span class="text-5xl font-light mb-2 transform group-hover:rotate-12 transition-transform duration-300">+</span>
             <span class="text-sm font-semibold">Create New Collection</span>
           </button>
@@ -238,6 +243,25 @@
       </section>
     </main>
   </div>
+
+  <!-- Create Collection Modal (shared, can be triggered from dashboard) -->
+  <div id="createCollectionModalDashboard" class="fixed inset-0 bg-black bg-opacity-75 hidden items-center justify-center z-50 p-4 transition-opacity duration-300 ease-out">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col transform transition-all duration-300 ease-out scale-95 opacity-0" id="createCollectionDialogDashboard">
+      <div class="flex justify-between items-center p-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">Create New Collection</h2>
+        <button id="closeCreateCollectionModalBtnDashboard" class="text-gray-400 hover:text-gray-600 text-2xl p-1 leading-none">×</button>
+      </div>
+      <div class="flex-grow overflow-y-auto p-1">
+        <iframe id="createCollectionIframeDashboard" src="about:blank" class="w-full h-full min-h-[calc(80vh-150px)] border-0" title="Create Collection Form"></iframe>
+      </div>
+      <div class="p-4 border-t border-gray-200 flex justify-end space-x-3 bg-gray-50 rounded-b-lg">
+        <button id="cancelCreateCollectionBtnDashboard" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-6px hover:bg-gray-300 transition-colors">Cancel</button>
+        <button id="saveCreateCollectionBtnDashboard" class="bg-[#3ba66b] text-white font-semibold py-2 px-4 rounded-6px hover:bg-opacity-90 transition-colors">Create Collection</button>
+      </div>
+    </div>
+  </div>
+
+
   <footer class="text-center py-4 bg-gray-100 border-t border-gray-200 text-xs text-gray-500 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.2s;">
     © 2023 lazy.cook. All rights reserved.
   </footer>
@@ -279,7 +303,6 @@
     dashboardNotificationDropdownContainer.classList.remove('active');
   }
 
-  // Ensure elements exist before adding listeners - important if script is general
   if (dashboardNotificationIconWrapper && dashboardNotificationDropdownContainer) {
     dashboardNotificationIconWrapper.addEventListener('mouseenter', () => {
       clearTimeout(dashboardNotificationHoverTimeout);
@@ -300,14 +323,66 @@
         dashboardCloseNotificationDropdown();
       }, 300);
     });
-
-    // Example: Automatically trigger a notification for dashboard demo after page loads
-    // This is a good place to add it if you always want a notification to show up
-    // setTimeout(dashboardShowNewNotificationIndicator, 2500); // Show after 2.5s
+    // setTimeout(dashboardShowNewNotificationIndicator, 2500);
   }
 
-  // You might want a separate button or mechanism to test notifications on the dashboard specifically if needed.
-  // For now, the functionality is tied to the elements if they exist.
+  // Script for Create Collection Modal on Dashboard
+  const createCollectionModalDashboard = document.getElementById('createCollectionModalDashboard');
+  const createCollectionDialogDashboard = document.getElementById('createCollectionDialogDashboard');
+  const closeCreateCollectionModalBtnDashboard = document.getElementById('closeCreateCollectionModalBtnDashboard');
+  const createCollectionIframeDashboard = document.getElementById('createCollectionIframeDashboard');
+  const cancelCreateCollectionBtnDashboard = document.getElementById('cancelCreateCollectionBtnDashboard');
+  const saveCreateCollectionBtnDashboard = document.getElementById('saveCreateCollectionBtnDashboard');
+
+  function openCreateCollectionModalFromDashboard() {
+    createCollectionIframeDashboard.src = 'create_collection_form.html'; // Assuming you have this form
+    createCollectionModalDashboard.classList.remove('hidden');
+    createCollectionModalDashboard.classList.add('flex');
+    setTimeout(() => {
+      createCollectionModalDashboard.classList.remove('opacity-0');
+      createCollectionDialogDashboard.classList.remove('scale-95', 'opacity-0');
+      createCollectionDialogDashboard.classList.add('scale-100', 'opacity-100');
+    }, 10);
+  }
+
+  function closeCreateCollectionModalDashboard() {
+    createCollectionDialogDashboard.classList.remove('scale-100', 'opacity-100');
+    createCollectionDialogDashboard.classList.add('scale-95', 'opacity-0');
+    createCollectionModalDashboard.classList.add('opacity-0');
+    setTimeout(() => {
+      createCollectionModalDashboard.classList.add('hidden');
+      createCollectionModalDashboard.classList.remove('flex');
+      createCollectionIframeDashboard.src = 'about:blank';
+    }, 300);
+  }
+
+  if(closeCreateCollectionModalBtnDashboard) closeCreateCollectionModalBtnDashboard.addEventListener('click', closeCreateCollectionModalDashboard);
+  if(cancelCreateCollectionBtnDashboard) cancelCreateCollectionBtnDashboard.addEventListener('click', closeCreateCollectionModalDashboard);
+
+  if(saveCreateCollectionBtnDashboard) {
+    saveCreateCollectionBtnDashboard.addEventListener('click', () => {
+      // Mockup: In a real app, get data from iframe, save, then maybe add card or redirect
+      alert('Collection created (mockup from dashboard)!');
+      // Optionally, you could try to dynamically add a card here too, or just close.
+      // For simplicity, we just close. A better UX might redirect to collections.html
+      window.location.href = 'collections.html'; // Or just close modal if you prefer
+      // closeCreateCollectionModalDashboard();
+    });
+  }
+
+  if(createCollectionModalDashboard) {
+    createCollectionModalDashboard.addEventListener('click', (event) => {
+      if (event.target === createCollectionModalDashboard) {
+        closeCreateCollectionModalDashboard();
+      }
+    });
+  }
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && createCollectionModalDashboard && !createCollectionModalDashboard.classList.contains('hidden')) {
+      closeCreateCollectionModalDashboard();
+    }
+  });
+
 
 </script>
 </body>
