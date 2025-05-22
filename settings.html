@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - LazyCook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        .main-content-area::-webkit-scrollbar { width: 8px; }
+        .main-content-area::-webkit-scrollbar-thumb { background-color: #A0AEC0; border-radius: 4px; }
+        .main-content-area::-webkit-scrollbar-track { background-color: #EDF2F7; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popUpScale {
+            0% { opacity: 0; transform: scale(0.7); }
+            60% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse-sm { /* For notification badge, if needed */
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+        .animate-popUpScale { animation: popUpScale 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+        .opacity-0-initial { opacity: 0; }
+
+        .header-link::after { content: ''; display: block; width: 0; height: 2px; background: #644F9C; transition: width .3s ease-in-out; }
+        .header-link:hover::after, .header-link-active::after { width: 100%; }
+
+        .sidebar-link:hover span:first-child,
+        .sidebar-link:hover span:last-child { transform: scale(1.1) translateX(3px); }
+
+        .sidebar-link-active {
+            --tw-gradient-from: #8B5CF6;
+            --tw-gradient-to: #4F46E5;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+            background-image: linear-gradient(to right, var(--tw-gradient-stops));
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .sidebar-link-active span {
+            font-weight: bold;
+        }
+
+
+        .notification-badge.pulsing { animation: pulse-sm 1.5s ease-in-out 3; }
+
+        .notification-dropdown {
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+            pointer-events: none;
+        }
+        .notification-dropdown.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        .notification-dropdown::before {
+            content: ""; position: absolute; bottom: 100%; right: 10px;
+            margin-left: -5px; border-width: 6px; border-style: solid;
+            border-color: transparent transparent white transparent;
+            filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.05));
+        }
+    </style>
+</head>
+<body class="bg-[#F9FAFB]">
+<div class="flex flex-col min-h-screen relative">
+    <div class="absolute top-0 left-0 w-60 h-60 sm:w-80 sm:h-80 bg-[#644F9C]/5 rounded-full -z-10 transform -translate-x-1/4 -translate-y-1/4 opacity-50"></div>
+    <div class="absolute bottom-0 right-0 w-52 h-52 sm:w-72 sm:h-72 bg-[#16A51D]/5 rounded-full -z-10 transform translate-x-1/4 translate-y-1/4 opacity-50"></div>
+
+    <header class="bg-white shadow-sm sticky top-0 z-40 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
+                    lazy.cook
+                </a>
+                <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
+                    <a href="index.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
+                    <a href="dashboard.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Dashboard</a>
+                    <a href="create_recipe_part1.html" class="text-white bg-[#4F9C78] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
+                </nav>
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div id="settings-notification-icon-wrapper" class="relative">
+                        <button id="settings-notification-button" title="Notifications" class="p-1 transition-transform duration-200 hover:scale-110 focus:outline-none">
+                            <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/fle87g92_expires_30_days.png" alt="Notifications" class="w-[20px] h-[25px] sm:w-[24px] sm:h-[30px] object-contain"/>
+                        </button>
+                        <span id="settings-notification-badge" class="notification-badge absolute top-0 right-0 block h-2.5 w-2.5 sm:h-3 sm:w-3 transform -translate-y-1/3 translate-x-1/3 bg-red-500 rounded-full ring-2 ring-white hidden"></span>
+                        <div id="settings-notification-dropdown-container" class="notification-dropdown absolute top-full right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                            <div class="p-2 border-b border-gray-200"><h3 class="text-sm font-semibold text-gray-700">Notifications</h3></div>
+                            <iframe id="settings-notification-iframe" src="about:blank" class="w-full h-64 sm:h-80 border-0" title="Notifications Content"></iframe>
+                            <div class="p-2 text-center border-t border-gray-200"><a href="#" class="text-xs text-[#644F9C] hover:underline">View all notifications</a></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/6qy3pc1x_expires_30_days.png" alt="User Avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-transparent hover:border-[#644F9C]">
+                        <span class="hidden sm:inline text-[#374151] text-sm font-semibold">User Name</span>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-gray-600 hover:text-[#644F9C] p-2" onclick="alert('Mobile menu (not functional)')">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex flex-col lg:flex-row">
+        <aside class="w-full lg:w-64 xl:w-72 bg-white shadow-lg lg:shadow-none lg:border-r border-gray-200 p-4 sm:p-6 shrink-0">
+            <div class="flex items-center space-x-4 mb-8 opacity-0-initial animate-popUpScale" style="animation-delay: 0.2s;">
+                <div class="bg-[#EDF2F7] w-16 h-16 rounded-full flex items-center justify-center text-[#2D3748] text-2xl font-semibold shrink-0 transform transition-transform duration-200 hover:scale-110">
+                    UN
+                </div>
+                <div>
+                    <h3 class="text-[#2D3748] text-base font-bold">User Name</h3>
+                    <p class="text-[#718096] text-xs sm:text-sm truncate">user@example.com</p>
+                </div>
+            </div>
+            <nav class="space-y-1">
+                <a href="dashboard.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
+                    <span class="text-xl transition-transform duration-200 ease-out">🏠</span>
+                    <span class="text-sm font-semibold transition-transform duration-200 ease-out">Dashboard</span>
+                </a>
+                <a href="profile.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
+                    <span class="text-xl transition-transform duration-200 ease-out">👤</span>
+                    <span class="text-sm font-semibold transition-transform duration-200 ease-out">Profile</span>
+                </a>
+                <a href="my_recipes.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
+                    <span class="text-xl transition-transform duration-200 ease-out">📖</span>
+                    <span class="text-sm font-semibold transition-transform duration-200 ease-out">My Recipes</span>
+                </a>
+                <a href="collections.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
+                    <span class="text-xl transition-transform duration-200 ease-out">📚</span>
+                    <span class="text-sm font-semibold transition-transform duration-200 ease-out">Collections</span>
+                </a>
+                <hr class="my-4 border-gray-300">
+                <a href="settings.html" class="sidebar-link sidebar-link-active flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ease-in-out">
+                    <span class="text-xl transition-transform duration-200 ease-out">⚙️</span>
+                    <span class="text-sm font-semibold transition-transform duration-200 ease-out">Settings</span>
+                </a>
+                <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
+                    <span class="text-xl transition-transform duration-200 ease-out">🚪</span>
+                    <span class="text-sm font-semibold transition-transform duration-200 ease-out">Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto main-content-area" style="background: linear-gradient(to bottom, rgba(100, 79, 156, 0.10) 0%, rgba(100, 79, 156, 0.03) 30%, transparent 60%);">
+            <section class="mb-8 sm:mb-10">
+                <div class="opacity-0-initial animate-popUpScale" style="animation-delay: 0.3s;">
+                    <h1 class="text-[#2D3748] text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">Settings</h1>
+                    <p class="text-[#718096] text-base">Manage your account preferences and application settings.</p>
+                </div>
+            </section>
+
+            <section class="opacity-0-initial animate-fadeInUp" style="animation-delay: 0.5s;">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-[#2D3748] text-xl font-semibold mb-6">Account Settings</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <label for="displayName" class="block text-sm font-medium text-gray-700">Display Name</label>
+                            <input type="text" name="displayName" id="displayName" value="User Name" class="mt-1 block w-full sm:w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                        </div>
+                        <div>
+                            <label for="emailSettings" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" name="emailSettings" id="emailSettings" value="user@example.com" class="mt-1 block w-full sm:w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" readonly>
+                            <p class="mt-2 text-xs text-gray-500">Email cannot be changed here. Contact support if needed.</p>
+                        </div>
+                        <div>
+                            <a href="change_password.html" class="text-sm font-medium text-[#644F9C] hover:text-purple-700 hover:underline">Change Password</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg mt-8">
+                    <h2 class="text-[#2D3748] text-xl font-semibold mb-6">Notification Preferences</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <input id="emailNotifications" name="emailNotifications" type="checkbox" checked class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                            <label for="emailNotifications" class="ml-2 block text-sm text-gray-900">Email notifications for new recipes</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="appNotifications" name="appNotifications" type="checkbox" checked class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                            <label for="appNotifications" class="ml-2 block text-sm text-gray-900">In-app notifications for comments</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 flex justify-end">
+                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-md hover:bg-gray-300 mr-3 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-[#644F9C] text-white font-semibold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#644F9C]">
+                        Save Changes
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer class="text-center py-4 bg-gray-100 border-t border-gray-200 text-xs text-gray-500 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.0s;">
+        © 2023 lazy.cook. All rights reserved.
+    </footer>
+</div>
+<script>
+    const settingsNotificationIconWrapper = document.getElementById('settings-notification-icon-wrapper');
+    const settingsNotificationBadge = document.getElementById('settings-notification-badge');
+    const settingsNotificationDropdownContainer = document.getElementById('settings-notification-dropdown-container');
+    const settingsNotificationIframe = document.getElementById('settings-notification-iframe');
+    let settingsHasNewNotification = false;
+    let settingsNotificationHoverTimeout;
+    let settingsIframeContentLoaded = false;
+
+    function settingsShowNewNotificationIndicator() {
+        if (!settingsNotificationBadge) return;
+        settingsNotificationBadge.classList.remove('hidden');
+        settingsNotificationBadge.classList.remove('pulsing');
+        void settingsNotificationBadge.offsetWidth;
+        settingsNotificationBadge.classList.add('pulsing');
+        settingsHasNewNotification = true;
+        setTimeout(() => {
+            if (settingsHasNewNotification) {
+                settingsNotificationBadge.classList.remove('pulsing');
+            }
+        }, 4500);
+    }
+
+    function settingsOpenNotificationDropdown() {
+        if (!settingsNotificationDropdownContainer || !settingsNotificationIframe) return;
+        if (!settingsIframeContentLoaded) {
+            settingsNotificationIframe.src = 'notifications_content.html';
+            settingsIframeContentLoaded = true;
+        }
+        settingsNotificationDropdownContainer.classList.add('active');
+        if(settingsHasNewNotification) {
+            if(settingsNotificationBadge) settingsNotificationBadge.classList.add('hidden');
+            if(settingsNotificationBadge) settingsNotificationBadge.classList.remove('pulsing');
+            settingsHasNewNotification = false;
+        }
+    }
+
+    function settingsCloseNotificationDropdown() {
+        if (!settingsNotificationDropdownContainer) return;
+        settingsNotificationDropdownContainer.classList.remove('active');
+    }
+
+    if (settingsNotificationIconWrapper && settingsNotificationDropdownContainer) {
+        settingsNotificationIconWrapper.addEventListener('mouseenter', () => {
+            clearTimeout(settingsNotificationHoverTimeout);
+            settingsOpenNotificationDropdown();
+        });
+        settingsNotificationIconWrapper.addEventListener('mouseleave', () => {
+            settingsNotificationHoverTimeout = setTimeout(() => {
+                if (!settingsNotificationDropdownContainer.matches(':hover')) {
+                    settingsCloseNotificationDropdown();
+                }
+            }, 300);
+        });
+        settingsNotificationDropdownContainer.addEventListener('mouseenter', () => {
+            clearTimeout(settingsNotificationHoverTimeout);
+        });
+        settingsNotificationDropdownContainer.addEventListener('mouseleave', () => {
+            settingsNotificationHoverTimeout = setTimeout(() => {
+                settingsCloseNotificationDropdown();
+            }, 300);
+        });
+    }
+</script>
+</body>
+</html>
