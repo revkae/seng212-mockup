@@ -71,11 +71,11 @@
   <header class="bg-white shadow-sm sticky top-0 z-40 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
-        <a href="index.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
+        <a href="../index_logged_in.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
           lazy.cook
         </a>
         <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
-          <a href="index.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
+          <a href="../index_logged_in.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
           <a href="dashboard.html" class="header-link header-link-active text-[#644F9C] text-base font-bold px-2 py-2">Dashboard</a>
           <a href="create_recipe_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
         </nav>
@@ -140,7 +140,7 @@
           <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.566 2.6 1.566 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.566-.379 1.566-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Settings</span>
         </a>
-        <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
+        <a href="../index_logged_out.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
           <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
           <span class="text-sm font-semibold transition-transform duration-200 ease-out">Logout</span>
         </a>
@@ -289,7 +289,7 @@
   }
   function dashboardOpenNotificationDropdown() {
     if (!dashboardIframeContentLoaded) {
-      dashboardNotificationIframe.src = 'notifications_content.html';
+      dashboardNotificationIframe.src = '../components/notifications_content.html';
       dashboardIframeContentLoaded = true;
     }
     dashboardNotificationDropdownContainer.classList.add('active');

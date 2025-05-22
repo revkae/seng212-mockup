@@ -60,10 +60,10 @@
   <header class="bg-white shadow-sm sticky top-0 z-40 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
-        <a href="index.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">lazy.cook</a>
+        <a href="../index_logged_in.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">lazy.cook</a>
         <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
-          <a href="index.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
-          <a href="dashboard.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Dashboard</a>
+          <a href="../index_logged_in.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
+          <a href="../user/dashboard.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Dashboard</a>
           <a href="create_recipe_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
         </nav>
         <div class="flex items-center space-x-3 sm:space-x-4">
@@ -115,11 +115,13 @@
           <span class="text-xl">📚</span> <span class="text-sm font-semibold">Collections</span>
         </a>
         <hr class="my-4 border-gray-300">
-        <a href="settings.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#644F9C] transition-all duration-200 ease-in-out">
-          <span class="text-xl">⚙️</span> <span class="text-sm font-semibold">Settings</span>
+        <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-purple-100 text-gray-700 hover:text-[#6B46C1] transition-all duration-200 ease-in-out">
+          <span class="text-xl transition-transform duration-200 ease-out">⚙️</span>
+          <span class="text-sm font-semibold transition-transform duration-200 ease-out">Settings</span>
         </a>
-        <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
-          <span class="text-xl">🚪</span> <span class="text-sm font-semibold">Logout</span>
+        <a href="../index_logged_out.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
+          <span class="text-xl transition-transform duration-200 ease-out">🚪</span>
+          <span class="text-sm font-semibold transition-transform duration-200 ease-out">Logout</span>
         </a>
       </nav>
     </aside>
@@ -146,9 +148,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <!-- Example Recipe Card (from my_recipes.html structure) -->
           <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300">
-            <a href="recipe_view.html" class="block">
+            <a href="../recipe/view_logged_in.html?id=quick-pasta-delight" class="block">
               <div class="relative h-40 sm:h-48 overflow-hidden">
-                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/example_recipe_1_expires_30_days.png" alt="Recipe Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/oanplxyz_expires_30_days.png" alt="Recipe Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
               </div>
               <div class="p-4 flex flex-col flex-grow">
                 <h3 class="text-[#2D3748] text-md font-bold mb-1 group-hover:text-[#644F9C] transition-colors">Spicy Tomato Pasta</h3>
@@ -165,9 +167,9 @@
           </div>
           <!-- Another Example Recipe Card -->
           <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300">
-            <a href="recipe_view.html" class="block">
+            <a href="../recipe/view_logged_in.html?id=summer-berry-salad" class="block">
               <div class="relative h-40 sm:h-48 overflow-hidden">
-                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/example_recipe_2_expires_30_days.png" alt="Avocado Toast Deluxe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/9p8q7r6w_expires_30_days.png" alt="Avocado Toast Deluxe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
               </div>
               <div class="p-4 flex flex-col flex-grow">
                 <h3 class="text-[#2D3748] text-md font-bold mb-1 group-hover:text-[#644F9C] transition-colors">Avocado Toast Deluxe</h3>

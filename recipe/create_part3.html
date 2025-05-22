@@ -16,7 +16,7 @@
   <div class="bg-white rounded-xl shadow-xl overflow-hidden">
     <header class="bg-[#644F9C] py-6 sm:py-8 px-4 sm:px-6 md:px-8">
       <div class="flex items-center">
-        <a href="index.html" class="text-white text-xl sm:text-2xl md:text-3xl font-bold mr-2 sm:mr-3">lazy.cook</a>
+        <a href="../index_logged_in.html" class="text-white text-xl sm:text-2xl md:text-3xl font-bold mr-2 sm:mr-3">lazy.cook</a>
         <span class="text-white text-xl sm:text-2xl md:text-3xl font-bold opacity-80">| Create New Recipe</span>
       </div>
     </header>
@@ -27,13 +27,13 @@
       </h2>
       <section class="mb-8 sm:mb-10 md:mb-12">
         <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
-          <a href="create_recipe_part1.html" class="flex items-center">
+          <a href="create_part1.html" class="flex items-center">
             <div class="bg-green-500 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-bold">✓</div>
             <span class="text-[#777777] text-sm sm:text-base font-semibold ml-1 sm:ml-2">Details</span>
           </a>
           <div class="h-px w-12 sm:w-16 lg:w-20 bg-green-500 hidden sm:block"></div>
 
-          <a href="create_recipe_part2.html" class="flex items-center">
+          <a href="create_part2.html" class="flex items-center">
             <div class="bg-green-500 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-bold">✓</div>
             <span class="text-[#777777] text-sm sm:text-base font-semibold ml-1 sm:ml-2">Ingredients & Steps</span>
           </a>
@@ -51,7 +51,7 @@
         <p class="text-[#777777] text-sm sm:text-base font-semibold">Add stunning visuals to make your recipe shine! (Optional)</p>
       </section>
 
-      <form action="recipe_view.html" method="GET" class="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md border border-gray-200">
+      <form action="view.html" method="GET" class="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md border border-gray-200">
         <section class="bg-[#644F9C] p-3 sm:p-4 rounded-xl">
           <label for="fileUploadInput" class="bg-[#CEBCFF] border-2 border-dashed border-[#A98BFF] rounded-lg p-6 sm:p-8 md:p-12 text-center cursor-pointer hover:bg-opacity-90 transition-opacity block">
             <span class="text-[#644F9C] text-4xl sm:text-5xl font-bold mb-3 sm:mb-4 block">⬆️</span>
@@ -85,13 +85,13 @@
         </section>
         <div class="mt-8 sm:mt-10 md:mt-12 pt-6 border-t border-gray-200">
           <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-            <a href="create_recipe_part2.html" class="w-full sm:w-auto text-center bg-white text-[#644F9C] text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg border-2 border-solid border-[#644F9C] hover:bg-purple-50 transition-colors">
+            <a href="create_part2.html" class="w-full sm:w-auto text-center bg-white text-[#644F9C] text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg border-2 border-solid border-[#644F9C] hover:bg-purple-50 transition-colors">
               Previous: Ingredients & Steps
             </a>
-            <a href="dashboard.html" class="w-full sm:w-auto text-center bg-[#777777] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
+            <a href="../user/dashboard.html" class="w-full sm:w-auto text-center bg-[#777777] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
               Save Draft
             </a>
-            <button type="submit" class="w-full sm:w-auto bg-[#4F9C78] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
+            <button type="submit" formaction="../recipe/view_logged_in.html" formmethod="GET" class="w-full sm:w-auto bg-[#4F9C78] text-white text-sm sm:text-base font-bold py-2.5 px-5 sm:px-6 rounded-lg hover:bg-opacity-80 transition-colors">
               Publish Recipe
             </button>
           </div>

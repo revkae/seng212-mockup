@@ -79,13 +79,13 @@
     <header class="bg-white shadow-sm sticky top-0 z-40 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="index.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
+                <a href="../index_logged_in.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
                     lazy.cook
                 </a>
                 <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
-                    <a href="index.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
+                    <a href="../index_logged_in.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Search</a>
                     <a href="dashboard.html" class="header-link text-[#374151] text-base font-semibold hover:text-[#644F9C] px-2 py-2">Dashboard</a>
-                    <a href="create_recipe_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
+                    <a href="../recipe/create_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
                 </nav>
                 <div class="flex items-center space-x-3 sm:space-x-4">
                     <div id="myrecipes-notification-icon-wrapper" class="relative">
@@ -146,7 +146,7 @@
                     <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.566 2.6 1.566 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.566-.379 1.566-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">Settings</span>
                 </a>
-                <a href="index.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
+                <a href="../index_logged_out.html" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-6px hover:bg-red-100 hover:text-red-600 text-gray-700 transition-all duration-200 ease-in-out">
                     <svg class="w-5 h-5 transition-transform duration-200 ease-out" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
                     <span class="text-sm font-semibold transition-transform duration-200 ease-out">Logout</span>
                 </a>
@@ -160,7 +160,7 @@
                         <h1 class="text-[#2D3748] text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">My Recipes</h1>
                         <p class="text-[#718096] text-base">All your culinary creations in one place.</p>
                     </div>
-                    <a href="create_recipe_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">
+                    <a href="../recipe/create_part1.html" class="text-white bg-[#3ba66b] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-6px transition-all duration-200 transform hover:scale-105 active:scale-95">
                         Create New Recipe
                     </a>
                 </div>
@@ -170,7 +170,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="recipeCardGrid">
                     <!-- Example Recipe Card 1 -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300">
-                        <a href="recipe_view.html" class="block">
+                        <a href="../recipe/view_logged_in.html?id=spicy-tomato-pasta" class="block">
                             <div class="relative h-40 sm:h-48 overflow-hidden">
                                 <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/example_recipe_1_expires_30_days.png" alt="Spicy Tomato Pasta" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                 <div class="absolute top-2 right-2 bg-[#644f9c] text-white text-xs font-semibold px-2 py-1 rounded-full">Published</div>
@@ -192,7 +192,7 @@
                     </div>
                     <!-- Example Recipe Card 2 (Draft) -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300">
-                        <a href="recipe_view.html" class="block">
+                        <a href="../recipe/view_logged_in.html?id=avocado-toast-deluxe" class="block">
                             <div class="relative h-40 sm:h-48 overflow-hidden">
                                 <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/example_recipe_2_expires_30_days.png" alt="Avocado Toast Deluxe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-70">
                                 <div class="absolute top-2 right-2 bg-gray-500 text-white text-xs font-semibold px-2 py-1 rounded-full">Draft</div>
@@ -212,7 +212,7 @@
                         </div>
                     </div>
                     <!-- Placeholder for no recipes -->
-                    <p id="noRecipesMessage" class="text-gray-500 col-span-full text-center py-10 hidden">You haven't created any recipes yet. <a href="create_recipe_part1.html" class="text-[#644f9c] hover:underline">Start now!</a></p>
+                    <p id="noRecipesMessage" class="text-gray-500 col-span-full text-center py-10 hidden">You haven't created any recipes yet. <a href="../recipe/create_part1.html" class="text-[#644f9c] hover:underline">Start now!</a></p>
                 </div>
             </section>
         </main>
@@ -275,7 +275,7 @@
         }
 
         function openEditModal(recipeTitle) {
-            editRecipeIframe.src = 'edit_recipe.html';
+            editRecipeIframe.src = '../recipe/edit.html';
             if(modalRecipeTitleElement) modalRecipeTitleElement.textContent = `Edit: ${recipeTitle || 'Recipe'}`;
 
             editRecipeModal.classList.remove('hidden');
@@ -335,7 +335,7 @@
 
         function openNotificationDropdown() {
             if (!iframeContentLoaded) {
-                if(notificationIframe) notificationIframe.src = 'notifications_content.html';
+                if(notificationIframe) notificationIframe.src = '../components/notifications_content.html';
                 iframeContentLoaded = true;
             }
             if(notificationDropdownContainer) notificationDropdownContainer.classList.add('active');

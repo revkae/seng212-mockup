@@ -66,31 +66,43 @@
   <header class="bg-white shadow-sm sticky top-0 z-50 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-            <a href="index_logged_in.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
+            <a href="../index_logged_in.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
                 lazy.cook
             </a>
             <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
-                <a href="index_logged_in.html" class="header-link text-[#374151] text-sm sm:text-base font-semibold hover:text-[#644F9C] px-1 py-1">Search</a>
-                <a href="dashboard.html" class="header-link text-[#374151] text-sm sm:text-base font-semibold hover:text-[#644F9C] px-1 py-1">Dashboard</a>
-                <a href="create_recipe_part1.html" class="text-white bg-[#4F9C78] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
+                <a href="../index_logged_in.html" class="header-link text-[#374151] text-sm sm:text-base font-bold hover:text-[#644F9C] px-1 py-1">Search</a>
+                <a href="../user/../user/dashboard.html" class="header-link text-[#374151] text-sm sm:text-base font-bold hover:text-[#644F9C] px-1 py-1">Dashboard</a>
+                <a href="../recipe/create_part1.html" class="text-white bg-[#4F9C78] hover:bg-opacity-90 text-sm sm:text-base font-semibold px-4 py-2 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">Create Recipe</a>
             </nav>
             <div class="flex items-center space-x-3 sm:space-x-4">
-                <div id="recipeview-notification-icon-wrapper" class="relative">
-                    <button id="recipeview-notification-button" title="Notifications" class="p-1 transition-transform duration-200 hover:scale-110 focus:outline-none">
-                        <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/sbed0mph_expires_30_days.png" alt="Notifications" class="w-[20px] h-[25px] sm:w-[24px] sm:h-[30px] object-contain"/>
+                <!-- Notification Icon Area -->
+                <div id="notification-icon-wrapper" class="relative">
+                    <button id="notification-button" title="Notifications" class="p-1 transition-transform duration-200 hover:scale-110 focus:outline-none">
+                        <img
+                                src="../assets/img/bell.png" 
+                                alt="Notifications"
+                                class="w-[20px] h-[25px] sm:w-[24px] sm:h-[30px] object-contain"
+                        />
                     </button>
-                    <span id="recipeview-notification-badge" class="notification-badge absolute top-0 right-0 block h-2.5 w-2.5 sm:h-3 sm:w-3 transform -translate-y-1/3 translate-x-1/3 bg-red-500 rounded-full ring-2 ring-white hidden"></span>
-                    <div id="recipeview-notification-dropdown-container" class="notification-dropdown absolute top-full right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
-                        <div class="p-2 border-b border-gray-200"><h3 class="text-sm font-semibold text-gray-700">Notifications</h3></div>
-                        <iframe id="recipeview-notification-iframe" src="about:blank" class="w-full h-64 sm:h-80 border-0" title="Notifications Content"></iframe>
-                        <div class="p-2 text-center border-t border-gray-200"><a href="#" onclick="alert('Viewing all notifications (Placeholder)')" class="text-xs text-[#644F9C] hover:underline">View all notifications</a></div>
+                    <span id="notification-badge" class="notification-badge absolute top-0 right-0 block h-2.5 w-2.5 sm:h-3 sm:w-3 transform -translate-y-1/3 translate-x-1/3 bg-red-500 rounded-full ring-2 ring-white hidden"></span>
+                    <div id="notification-dropdown-container"
+                         class="notification-dropdown absolute top-full right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                        <div class="p-2 border-b border-gray-200">
+                            <h3 class="text-sm font-semibold text-gray-700">Notifications</h3>
+                        </div>
+                        <iframe id="notification-iframe" src="../components/notifications_content.html" class="w-full h-64 sm:h-80 border-0" title="Notifications Content"></iframe>
+                        <div class="p-2 text-center border-t border-gray-200">
+                            <a href="#" class="text-xs text-[#644F9C] hover:underline">View all notifications</a>
+                        </div>
                     </div>
                 </div>
-                <a href="dashboard.html" title="User Profile" class="p-1 transition-transform duration-200 hover:scale-110">
+                <!-- User Avatar and Name -->
+                <div class="flex items-center space-x-2">
                     <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/l3g6l4b1_expires_30_days.png" alt="User Avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-transparent hover:border-[#644F9C]">
-                </a>
+                    <span class="hidden sm:inline text-[#374151] text-sm font-semibold">User Name</span>
+                </div>
             </div>
-             <div class="md:hidden"> <!-- Hamburger Menu -->
+            <div class="md:hidden"> <!-- Hamburger Menu -->
                 <button class="text-gray-600 hover:text-[#644F9C] p-2" onclick="alert('Mobile menu (not functional - logged in state)')">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
@@ -335,7 +347,7 @@
   }
   function rvOpenNotificationDropdown() {
     if (!rvIframeContentLoaded && rvNotificationIframe) {
-      rvNotificationIframe.src = 'notifications_content.html';
+      rvNotificationIframe.src = '../components/notifications_content.html';
       rvIframeContentLoaded = true;
     }
     if (rvNotificationDropdownContainer) rvNotificationDropdownContainer.classList.add('active');

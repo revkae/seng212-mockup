@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spaghetti Carbonara - LazyCook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popUpScale {
+      0% { opacity: 0; transform: scale(0.7); }
+      60% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse-sm {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.3); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.3); }
+      70% { transform: scale(1); }
+    }
+
+    .animate-fadeIn { animation: fadeIn 0.6s ease-out forwards; }
+    .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+    .animate-popUpScale { animation: popUpScale 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+
+    .opacity-0-initial { opacity: 0; }
+    .header-link::after { content: ''; display: block; width: 0; height: 2px; background: #644F9C; transition: width .3s ease-in-out; }
+    .header-link:hover::after, .header-link-active::after { width: 100%; }
+    .notification-badge.pulsing { animation: pulse-sm 1.5s ease-in-out 3; }
+
+    .notification-dropdown { opacity: 0; transform: translateY(10px) scale(0.95); transition: opacity 0.2s ease-out, transform 0.2s ease-out; pointer-events: none; }
+    .notification-dropdown.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .notification-dropdown::before { content: ""; position: absolute; bottom: 100%; right: 10px; margin-left: -5px; border-width: 6px; border-style: solid; border-color: transparent transparent white transparent; filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.05)); }
+    
+    .prose a { color: #644F9C; text-decoration: underline; }
+    .prose a:hover { color: #4c3a8a; }
+    .prose ul > li::marker { color: #644F9C; }
+
+    .rating-stars span { cursor: pointer; transition: transform 0.1s ease-out, color 0.1s ease-out; }
+    .rating-stars span:hover, .rating-stars span.hovered, .rating-stars span.selected { color: #F6AD55; transform: scale(1.2); }
+    .rating-stars span.selected ~ span { color: #CBD5E0; } /* Reset subsequent stars if one is selected */
+
+
+    .toast-notification {
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+    .toast-notification.show {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+    .comment-like-button.liked svg { fill: #EF4444; color: #EF4444; animation: heartBeat 0.7s ease-in-out; }
+  </style>
+</head>
+<body class="bg-[#F9FAFB]">
+<div class="flex flex-col min-h-screen">
+  <!-- Updated Header - Logged Out State -->
+  <header class="bg-white shadow-sm sticky top-0 z-50 opacity-0-initial animate-fadeInUp" style="animation-delay: 0.1s;">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <a href="../index_logged_out.html" class="text-[#644F9C] text-2xl sm:text-3xl font-bold">
+                lazy.cook
+            </a>
+            <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
+                <a href="../index_logged_out.html" class="header-link text-[#374151] text-sm sm:text-base font-bold hover:text-[#644F9C] px-1 py-1">Search</a>
+                <a href="../user/../user/dashboard.html" class="header-link text-[#374151] text-sm sm:text-base font-bold hover:text-[#644F9C] px-1 py-1">Dashboard</a>
+                <!-- No "Create Recipe" for logged-out users -->
+            </nav>
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <a href="../auth/register.html" class="text-[#644F9C] text-sm sm:text-base font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-[6px] border-2 border-solid border-[#644F9C] hover:bg-[#644F9C] hover:text-white transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95">
+                    Sign Up
+                </a>
+                <a href="../auth/login.html" class="bg-[#644F9C] text-white text-sm sm:text-base font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-[6px] hover:bg-opacity-90 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95">
+                    Log In
+                </a>
+            </div>
+        </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <section class="self-stretch bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/xwkcmz0a_expires_30_days.png')] bg-cover bg-center relative opacity-0-initial animate-fadeIn" style="animation-delay: 0.2s;">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-28 relative z-10">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-8">
+          <div class="flex-1 text-center md:text-left">
+            <h1 class="text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3 shadow-sm opacity-0-initial animate-popUpScale" style="animation-delay: 0.4s;">
+              Spaghetti Carbonara
+            </h1>
+            <p class="text-gray-200 text-sm sm:text-base mb-3 sm:mb-4 opacity-0-initial animate-popUpScale" style="animation-delay: 0.5s;">
+              By <a href="#" class="hover:underline font-semibold">Chef Italiano</a> • Published on Oct 26, 2023
+            </p>
+            <div id="hero-rating" class="rating-stars flex items-center justify-center md:justify-start space-x-1 opacity-0-initial animate-popUpScale" style="animation-delay: 0.6s;" data-rating="4">
+              <span data-value="1" class="text-gray-400 text-2xl sm:text-3xl">★</span>
+              <span data-value="2" class="text-gray-400 text-2xl sm:text-3xl">★</span>
+              <span data-value="3" class="text-gray-400 text-2xl sm:text-3xl">★</span>
+              <span data-value="4" class="text-gray-400 text-2xl sm:text-3xl">★</span>
+              <span data-value="5" class="text-gray-400 text-2xl sm:text-3xl">☆</span>
+              <span class="text-gray-200 text-sm sm:text-base ml-2 sm:ml-3">(<span id="hero-rating-count">4.2</span> from 125 ratings)</span>
+            </div>
+          </div>
+          <div class="shrink-0 mt-4 md:mt-0 self-center md:self-auto opacity-0-initial animate-popUpScale" style="animation-delay: 0.7s;">
+            <div class="flex items-center space-x-3 bg-black/30 p-3 rounded-lg">
+                <span class="text-sm text-gray-200 font-medium">Share:</span>
+                <a href="#" onclick="alert('Sharing on Facebook (Placeholder)')" title="Share on Facebook" class="text-gray-300 hover:text-white transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+                <a href="#" onclick="alert('Sharing on Twitter (Placeholder)')" title="Share on Twitter" class="text-gray-300 hover:text-white transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.42.719-.665 1.56-.665 2.455 0 1.61.823 3.027 2.075 3.858-.768-.025-1.484-.248-2.11-.59v.061c0 2.254 1.604 4.135 3.737 4.568-.39.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.354 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.403-.014-.602.91-.658 1.7-1.475 2.323-2.408z"/></svg></a>
+                <a href="#" onclick="alert('Sharing via Email (Placeholder)')" title="Share via Email" class="text-gray-300 hover:text-white transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <div class="flex flex-col sm:flex-row justify-end items-center gap-3 sm:gap-4 mb-6 sm:mb-8 opacity-0-initial animate-popUpScale" style="animation-delay: 0.8s;">
+        <button id="save-collection-btn" class="flex items-center justify-center space-x-2 bg-white text-[#644F9C] border-2 border-[#644F9C] hover:bg-[#644F9C] hover:text-white font-semibold py-2 px-4 rounded-md text-sm sm:text-base transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <svg id="save-collection-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+          <span id="save-collection-text">Save to Collection</span>
+        </button>
+        <button onclick="alert('Simulating print dialog...')" class="flex items-center justify-center space-x-2 bg-[#3BA66B] hover:bg-opacity-90 text-white font-semibold py-2.5 px-4 rounded-md text-sm sm:text-base transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h1v-4a1 1 0 011-1h10a1 1 0 011 1v4h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm3 0h4v2H8V4zm2 11H7v2h3v-2z" clip-rule="evenodd"></path></svg>
+          <span>Print Recipe</span>
+        </button>
+      </div>
+      <p class="text-[#4B5563] text-base md:text-lg leading-relaxed opacity-0-initial animate-fadeInUp prose max-w-none" style="animation-delay: 0.9s;">
+        A truly classic Italian pasta dish, Spaghetti Carbonara is a masterpiece of simplicity and flavor. Made with crispy pancetta, rich egg yolks, sharp Pecorino Romano cheese, and a generous kick of black pepper, it's a deceptively quick and incredibly satisfying meal. Perfect for a weeknight indulgence or impressing guests with minimal effort. This version sticks to traditional methods for an authentic taste of Rome.
+      </p>
+    </section>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <hr class="my-6 sm:my-8 border-gray-300">
+    </div>
+
+    <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.0s;">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        <div class="lg:w-2/3 opacity-0-initial animate-popUpScale" style="animation-delay: 1.1s;">
+          <div class="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-2 text-gray-600 text-xs sm:text-sm mb-6 sm:mb-8">
+            <span class="flex items-center"><svg class="w-4 h-4 mr-1.5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>PREP TIME: 15 mins</span>
+            <span class="flex items-center"><svg class="w-4 h-4 mr-1.5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>COOK TIME: 20 mins</span>
+            <span class="flex items-center"><svg class="w-4 h-4 mr-1.5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>SERVINGS: 4 people</span>
+            <span class="flex items-center"><svg class="w-4 h-4 mr-1.5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>DIFFICULTY: Easy</span>
+          </div>
+
+          <div>
+            <div class="relative mb-6 sm:mb-8">
+              <div class="flex items-center mb-2">
+                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/qoorz5x0_expires_30_days.png" alt="Ingredients Icon - bowl with whisk" aria-hidden="true" class="w-10 h-10 sm:w-12 sm:h-12 object-contain mr-3 opacity-70 transform transition-transform hover:scale-110 hover:rotate-6"/>
+                <h2 class="text-[#374151] text-xl sm:text-2xl font-bold">
+                  Ingredients
+                </h2>
+              </div>
+              <hr class="border-gray-300">
+            </div>
+
+            <ul class="list-disc pl-5 space-y-2 text-[#4B5563] text-base marker:text-[#644F9C] prose max-w-none">
+              <li>400g Spaghetti or Bucatini</li>
+              <li>150g Guanciale or good quality Pancetta, diced into small cubes</li>
+              <li>3 large fresh Egg Yolks, plus 1 whole Egg</li>
+              <li>50g Pecorino Romano cheese, finely grated (plus extra for serving)</li>
+              <li>Freshly ground Black Pepper, to taste</li>
+              <li>Salt (for pasta water)</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="lg:w-1/3 shrink-0 bg-white p-6 sm:p-8 rounded-2xl shadow-xl h-fit border border-gray-200 opacity-0-initial animate-popUpScale hover:shadow-2xl transform hover:-translate-y-1.5 transition-all duration-300" style="animation-delay: 1.2s;">
+          <h3 class="text-[#374151] text-lg sm:text-xl font-bold mb-4">
+            Nutrition Info <span class="text-sm font-normal text-gray-500">(approx. per serving)</span>
+          </h3>
+          <ul class="space-y-2 text-[#4B5563] text-sm">
+            <li class="flex justify-between"><span>Calories:</span> <span class="font-medium">~550-650 kcal</span></li>
+            <li class="flex justify-between"><span>Protein:</span> <span class="font-medium">~25-30g</span></li>
+            <li class="flex justify-between"><span>Fat:</span> <span class="font-medium">~30-35g</span></li>
+            <li class="flex justify-between pl-4"><span>Saturated Fat:</span> <span class="font-medium">~12-15g</span></li>
+            <li class="flex justify-between"><span>Carbohydrates:</span> <span class="font-medium">~45-55g</span></li>
+            <li class="flex justify-between"><span>Sodium:</span> <span class="font-medium text-red-500">High</span></li>
+            <li class="pt-2 text-xs text-gray-500"><em>Note: Values vary based on specific ingredients and portion sizes.</em></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <hr class="my-6 sm:my-8 border-gray-300">
+    </div>
+
+    <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.3s;">
+      <h2 class="text-[#374151] text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">
+        Instructions - Let's Slay This Carbonara!
+      </h2>
+      <div class="prose prose-indigo prose-sm sm:prose-base lg:prose-lg max-w-none text-[#4B5563] leading-relaxed space-y-5">
+        <p><strong>1. Get Your Mise en Place, Darling:</strong> Finely grate your Pecorino Romano. Separate your egg yolks and place them in a medium bowl with the one whole egg. Whisk them lightly, then stir in most of the grated Pecorino and a generous amount of freshly ground black pepper. Set aside.</p>
+        <p><strong>2. Pasta Water Party:</strong> Bring a large pot of salted water to a rolling boil. Add the spaghetti and cook according to package directions until al dente (usually 8-10 minutes). Don't you dare overcook it!</p>
+        <p><strong>3. Sizzle That Guanciale (or Pancetta):</strong> While the pasta is cooking its heart out, heat a large, dry skillet or pan over medium heat. Add the diced guanciale/pancetta and cook slowly until it's gloriously crispy and golden, and the fat has rendered out. This usually takes 7-10 minutes. Turn off the heat (or keep it very low) once crispy. Do NOT discard the rendered fat - that's pure gold, baby!</p>
+        <p><strong>4. The Magic Merge - Timing is Everything!:</strong> Just before the pasta is ready, scoop out about a cup of the starchy pasta water and set aside. Drain the pasta (but not too dry!). Immediately add the hot pasta to the skillet with the pancetta and its rendered fat. Toss vigorously to coat every strand. This step is crucial and happens off direct heat or very low heat to prevent scrambled eggs.</p>
+        <p><strong>5. Emulsify, Queen!:</strong> Quickly pour the egg and cheese mixture over the pasta. Stir and toss rapidly and continuously. The heat from the pasta will cook the eggs gently, creating a creamy, luscious sauce. If it seems too thick or dry, add a tablespoon or two of the reserved hot pasta water to reach your desired consistency. Keep tossing until the sauce is silky smooth and coats the pasta beautifully.</p>
+        <p><strong>6. Serve Immediately & Fabulously:</strong> Divide the Spaghetti Carbonara among warm serving bowls. Garnish generously with more grated Pecorino Romano and another fresh crack of black pepper. Serve *immediately* – carbonara waits for no one! Now go on and enjoy that masterpiece, you culinary icon!</p>
+      </div>
+    </section>
+    
+    <!-- Comments and Review Section -->
+    <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.4s;">
+        <hr class="my-6 sm:my-8 border-gray-300">
+        <h2 class="text-[#374151] text-2xl sm:text-3xl font-bold mb-8">Reviews & Comments (<span id="comment-count">2</span>)</h2>
+
+        <!-- Add Review Form -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 mb-10 opacity-0-initial animate-popUpScale" style="animation-delay: 1.5s;">
+            <h3 class="text-xl font-semibold text-[#374151] mb-4">Leave a Review</h3>
+            <form id="add-review-form">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Your Rating:</label>
+                    <div id="review-stars" class="rating-stars flex text-2xl text-gray-300">
+                        <span data-value="1">★</span>
+                        <span data-value="2">★</span>
+                        <span data-value="3">★</span>
+                        <span data-value="4">★</span>
+                        <span data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="review-rating-value" name="rating" value="0">
+                </div>
+                <div class="mb-4">
+                    <label for="review-text" class="block text-sm font-medium text-gray-700 mb-1">Your Review:</label>
+                    <textarea id="review-text" name="comment" rows="4" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#644F9C] focus:border-[#644F9C] transition-colors" placeholder="Share your thoughts on this recipe..."></textarea>
+                </div>
+                <button type="submit" class="bg-[#644F9C] hover:bg-opacity-90 text-white font-semibold py-2.5 px-5 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">Submit Review</button>
+            </form>
+        </div>
+
+        <!-- Existing Comments -->
+        <div id="comments-container" class="space-y-6">
+            <div class="comment-card bg-white p-5 rounded-lg shadow-md border border-gray-200 opacity-0-initial animate-popUpScale" style="animation-delay: 1.6s;">
+                <div class="flex items-start space-x-3">
+                    <img src="https://via.placeholder.com/40/D1D5DB/644F9C?text=JD" alt="John Doe Avatar" class="w-10 h-10 rounded-full">
+                    <div>
+                        <p class="font-semibold text-[#374151]">John Doe <span class="text-xs text-gray-500 font-normal ml-1">• 2 days ago</span></p>
+                        <div class="rating-stars flex text-lg text-yellow-400 my-1"><span>★</span><span>★</span><span>★</span><span>★</span><span class="text-gray-300">☆</span></div>
+                        <p class="text-gray-700 text-sm leading-relaxed">Absolutely delicious and so easy to follow! My family loved it. The tip about reserving pasta water was a game-changer. Will definitely make this again.</p>
+                    </div>
+                </div>
+                <div class="mt-3 flex items-center justify-end space-x-3">
+                    <button class="comment-like-button text-gray-500 hover:text-red-500 flex items-center space-x-1 transition-colors text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <span class="like-count">15</span>
+                    </button>
+                    <a href="#" onclick="alert('Reply functionality (Placeholder)')" class="text-xs text-[#644F9C] hover:underline">Reply</a>
+                </div>
+            </div>
+            <div class="comment-card bg-white p-5 rounded-lg shadow-md border border-gray-200 opacity-0-initial animate-popUpScale" style="animation-delay: 1.7s;">
+                <div class="flex items-start space-x-3">
+                    <img src="https://via.placeholder.com/40/D1D5DB/3BA66B?text=AS" alt="Alice Smith Avatar" class="w-10 h-10 rounded-full">
+                    <div>
+                        <p class="font-semibold text-[#374151]">Alice Smith <span class="text-xs text-gray-500 font-normal ml-1">• 1 week ago</span></p>
+                         <div class="rating-stars flex text-lg text-yellow-400 my-1"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                        <p class="text-gray-700 text-sm leading-relaxed">This is my new go-to Carbonara recipe! The instructions were clear and the result was restaurant-quality. I used pancetta and it was perfect.</p>
+                    </div>
+                </div>
+                 <div class="mt-3 flex items-center justify-end space-x-3">
+                    <button class="comment-like-button text-gray-500 hover:text-red-500 flex items-center space-x-1 transition-colors text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <span class="like-count">28</span>
+                    </button>
+                    <a href="#" onclick="alert('Reply functionality (Placeholder)')" class="text-xs text-[#644F9C] hover:underline">Reply</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="text-center my-8 opacity-0-initial animate-popUpScale" style="animation-delay: 1.8s;">
+      <button id="recipeview-test-notification-btn" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95">
+        Test RecipeView Notification
+      </button>
+    </div>
+  </main>
+
+  <footer class="text-center py-8 bg-gray-100 border-t border-gray-200 mt-12 opacity-0-initial animate-fadeInUp" style="animation-delay: 1.9s;">
+    <p class="text-sm text-gray-600">© 2023 LazyCook. All rights reserved.</p>
+    <div class="mt-2">
+      <a href="#" onclick="alert('Privacy Policy page (Placeholder)')" class="text-xs text-gray-500 hover:text-[#644F9C] px-2">Privacy Policy</a>
+      <a href="#" onclick="alert('Terms of Service page (Placeholder)')" class="text-xs text-gray-500 hover:text-[#644F9C] px-2">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast-notification" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 translate-y-10 z-[100]">
+    <span id="toast-message">Recipe saved!</span>
+  </div>
+
+</div>
+
+<script>
+  // --- Notification Bell Script ---
+  const rvNotificationIconWrapper = document.getElementById('recipeview-notification-icon-wrapper');
+  const rvNotificationBadge = document.getElementById('recipeview-notification-badge');
+  const rvTestNotificationBtn = document.getElementById('recipeview-test-notification-btn');
+  const rvNotificationDropdownContainer = document.getElementById('recipeview-notification-dropdown-container');
+  const rvNotificationIframe = document.getElementById('recipeview-notification-iframe');
+  let rvHasNewNotification = false;
+  let rvNotificationHoverTimeout;
+  let rvIframeContentLoaded = false;
+
+  function rvShowNewNotificationIndicator() {
+    if (rvNotificationBadge) {
+      rvNotificationBadge.classList.remove('hidden');
+      rvNotificationBadge.classList.remove('pulsing');
+      void rvNotificationBadge.offsetWidth;
+      rvNotificationBadge.classList.add('pulsing');
+      rvHasNewNotification = true;
+      setTimeout(() => {
+        if (rvHasNewNotification && rvNotificationBadge) {
+          rvNotificationBadge.classList.remove('pulsing');
+        }
+      }, 4500);
+    }
+  }
+  function rvOpenNotificationDropdown() {
+    if (!rvIframeContentLoaded && rvNotificationIframe) {
+      rvNotificationIframe.src = '../components/notifications_content.html';
+      rvIframeContentLoaded = true;
+    }
+    if (rvNotificationDropdownContainer) rvNotificationDropdownContainer.classList.add('active');
+    if(rvHasNewNotification && rvNotificationBadge) {
+      rvNotificationBadge.classList.add('hidden');
+      rvNotificationBadge.classList.remove('pulsing');
+      rvHasNewNotification = false;
+    }
+  }
+  function rvCloseNotificationDropdown() {
+    if (rvNotificationDropdownContainer) rvNotificationDropdownContainer.classList.remove('active');
+  }
+
+  if (rvNotificationIconWrapper && rvNotificationDropdownContainer && rvTestNotificationBtn) {
+    rvNotificationIconWrapper.addEventListener('mouseenter', () => { clearTimeout(rvNotificationHoverTimeout); rvOpenNotificationDropdown(); });
+    rvNotificationIconWrapper.addEventListener('mouseleave', () => {
+      rvNotificationHoverTimeout = setTimeout(() => {
+        if (rvNotificationDropdownContainer && !rvNotificationDropdownContainer.matches(':hover')) rvCloseNotificationDropdown();
+      }, 300);
+    });
+    rvNotificationDropdownContainer.addEventListener('mouseenter', () => { clearTimeout(rvNotificationHoverTimeout); });
+    rvNotificationDropdownContainer.addEventListener('mouseleave', () => {
+      rvNotificationHoverTimeout = setTimeout(() => rvCloseNotificationDropdown(), 300);
+    });
+    rvTestNotificationBtn.addEventListener('click', rvShowNewNotificationIndicator);
+  }
+
+  // --- Toast Notification Script ---
+  const toastElement = document.getElementById('toast-notification');
+  const toastMessageElement = document.getElementById('toast-message');
+  let toastTimeout;
+
+  function showToast(message) {
+    if (!toastElement || !toastMessageElement) return;
+    toastMessageElement.textContent = message;
+    toastElement.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toastElement.classList.remove('show');
+    }, 3000);
+  }
+
+  // --- Save to Collection Button Script ---
+  const saveCollectionBtn = document.getElementById('save-collection-btn');
+  const saveCollectionText = document.getElementById('save-collection-text');
+  const saveCollectionIcon = document.getElementById('save-collection-icon');
+  let isSaved = false;
+
+  if (saveCollectionBtn) {
+    saveCollectionBtn.addEventListener('click', () => {
+      isSaved = !isSaved;
+      if (isSaved) {
+        saveCollectionText.textContent = 'Saved to Favorites';
+        saveCollectionIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>'; // Checkmark
+        saveCollectionBtn.classList.remove('text-[#644F9C]', 'border-[#644F9C]', 'hover:bg-[#644F9C]', 'hover:text-white');
+        saveCollectionBtn.classList.add('bg-[#3BA66B]', 'text-white', 'border-[#3BA66B]');
+        showToast('Recipe saved to Favorites!');
+      } else {
+        saveCollectionText.textContent = 'Save to Collection';
+        saveCollectionIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>'; // Bookmark
+        saveCollectionBtn.classList.add('text-[#644F9C]', 'border-[#644F9C]', 'hover:bg-[#644F9C]', 'hover:text-white');
+        saveCollectionBtn.classList.remove('bg-[#3BA66B]', 'text-white', 'border-[#3BA66B]');
+        showToast('Recipe removed from Favorites.');
+      }
+    });
+  }
+
+  // --- Star Rating Script (Hero and Review Form) ---
+  function initializeRatingStars(containerId) {
+    const ratingContainer = document.getElementById(containerId);
+    if (!ratingContainer) return;
+
+    const stars = ratingContainer.querySelectorAll('span');
+    const ratingValueInput = (containerId === 'review-stars') ? document.getElementById('review-rating-value') : null;
+    let currentRating = parseInt(ratingContainer.dataset.rating) || 0; // For hero rating initial state
+
+    function updateStars(rating, isHover = false) {
+        stars.forEach(star => {
+            const starValue = parseInt(star.dataset.value);
+            if (starValue <= rating) {
+                star.classList.add(isHover ? 'hovered' : 'selected');
+                star.classList.remove('text-gray-300', 'text-gray-400'); // Ensure correct color reset
+                star.classList.add('text-[#F6AD55]');
+                star.textContent = '★';
+            } else {
+                star.classList.remove(isHover ? 'hovered' : 'selected');
+                 star.classList.remove('text-[#F6AD55]');
+                star.classList.add('text-gray-300'); // Default unselected color for review form
+                if(containerId === 'hero-rating' && !isHover && starValue > currentRating) star.classList.add('text-gray-400'); // Specific for hero unselected
+                star.textContent = '☆';
+            }
+             // Ensure selected state persists visually if not hovering
+            if (!isHover && currentRating > 0 && starValue <= currentRating) {
+                star.classList.add('selected', 'text-[#F6AD55]');
+                star.classList.remove('text-gray-300', 'text-gray-400');
+                star.textContent = '★';
+            }
+        });
+    }
+    
+    // Initialize hero stars based on data-rating
+    if (containerId === 'hero-rating' && currentRating > 0) {
+        updateStars(currentRating, false);
+    }
+
+
+    stars.forEach(star => {
+      star.addEventListener('mouseover', () => {
+        updateStars(parseInt(star.dataset.value), true);
+      });
+      star.addEventListener('mouseout', () => {
+        stars.forEach(s => s.classList.remove('hovered')); // Clear hover state
+        updateStars(currentRating, false); // Revert to current selected rating
+      });
+      star.addEventListener('click', () => {
+        currentRating = parseInt(star.dataset.value);
+        ratingContainer.dataset.rating = currentRating; // Update data attribute if needed
+        if (ratingValueInput) {
+          ratingValueInput.value = currentRating;
+        }
+        updateStars(currentRating, false);
+        if(containerId === 'hero-rating') {
+            alert(`You rated this recipe ${currentRating} stars (mock interaction).`);
+            // Optionally update the text e.g. "(4.2 from 125 ratings)" if desired
+        }
+      });
+    });
+  }
+
+  initializeRatingStars('hero-rating');
+  initializeRatingStars('review-stars');
+
+  // --- Add Review Form Script ---
+  const addReviewForm = document.getElementById('add-review-form');
+  const commentsContainer = document.getElementById('comments-container');
+  const commentCountElement = document.getElementById('comment-count');
+
+  if (addReviewForm && commentsContainer && commentCountElement) {
+    addReviewForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const rating = parseInt(document.getElementById('review-rating-value').value);
+      const reviewText = document.getElementById('review-text').value.trim();
+
+      if (rating === 0) {
+        alert('Please select a star rating.');
+        return;
+      }
+      if (reviewText === '') {
+        alert('Please enter your review.');
+        return;
+      }
+
+      const newCommentHTML = `
+        <div class="comment-card bg-white p-5 rounded-lg shadow-md border border-gray-200 opacity-0-initial animate-popUpScale" style="animation-delay: 0.1s;">
+            <div class="flex items-start space-x-3">
+                <img src="https://via.placeholder.com/40/D1D5DB/644F9C?text=U" alt="User Avatar" class="w-10 h-10 rounded-full">
+                <div>
+                    <p class="font-semibold text-[#374151]">You (Current User) <span class="text-xs text-gray-500 font-normal ml-1">• Just now</span></p>
+                    <div class="rating-stars flex text-lg text-yellow-400 my-1">
+                        ${[...Array(5)].map((_, i) => `<span class="${i < rating ? 'text-yellow-400' : 'text-gray-300'}">${i < rating ? '★' : '☆'}</span>`).join('')}
+                    </div>
+                    <p class="text-gray-700 text-sm leading-relaxed">${reviewText.replace(/\n/g, '<br>')}</p>
+                </div>
+            </div>
+            <div class="mt-3 flex items-center justify-end space-x-3">
+                <button class="comment-like-button text-gray-500 hover:text-red-500 flex items-center space-x-1 transition-colors text-sm">
+                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <span class="like-count">0</span>
+                </button>
+                <a href="#" onclick="alert('Reply functionality (Placeholder)')" class="text-xs text-[#644F9C] hover:underline">Reply</a>
+            </div>
+        </div>
+      `;
+      commentsContainer.insertAdjacentHTML('afterbegin', newCommentHTML);
+      
+      // Re-apply popUpScale animation to the newly added card
+      const newCard = commentsContainer.firstElementChild;
+      newCard.style.opacity = '0'; // Reset for animation
+      void newCard.offsetWidth; // Trigger reflow
+      newCard.classList.add('animate-popUpScale');
+
+
+      // Update comment count
+      commentCountElement.textContent = parseInt(commentCountElement.textContent) + 1;
+      
+      // Reset form
+      addReviewForm.reset();
+      document.getElementById('review-rating-value').value = '0';
+      initializeRatingStars('review-stars'); // Re-initialize review stars to reset visual state
+
+      showToast('Review submitted successfully!');
+      
+      // Add like functionality to the new comment
+      const newLikeButton = newCard.querySelector('.comment-like-button');
+      if (newLikeButton) addLikeFunctionality(newLikeButton);
+
+    });
+  }
+
+  // --- Comment Like Button Script ---
+  function addLikeFunctionality(button) {
+    let liked = false;
+    const likeCountSpan = button.querySelector('.like-count');
+    let currentLikes = parseInt(likeCountSpan.textContent);
+
+    button.addEventListener('click', () => {
+      liked = !liked;
+      if (liked) {
+        button.classList.add('liked');
+        currentLikes++;
+      } else {
+        button.classList.remove('liked');
+        currentLikes--;
+      }
+      likeCountSpan.textContent = currentLikes;
+    });
+  }
+
+  document.querySelectorAll('.comment-like-button').forEach(button => {
+    addLikeFunctionality(button);
+  });
+
+</script>
+</body>
+</html>
