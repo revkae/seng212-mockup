@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - User Management - LazyCook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #4A5568; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #718096; }
+    .custom-scrollbar::-webkit-scrollbar-track { background-color: #1A202C; }
+     @keyframes fadeOutRow {
+      from { opacity: 1; transform: scaleY(1); padding-top: 0.75rem; padding-bottom: 0.75rem; height: auto; }
+      to { opacity: 0; transform: scaleY(0.8); padding-top: 0; padding-bottom: 0; height: 0; margin-top: 0; margin-bottom: 0; border-width: 0;}
+    }
+    .row-fade-out {
+      animation: fadeOutRow 0.3s ease-out forwards;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-[#1A202C] text-gray-200">
+<div class="flex flex-col min-h-screen">
+
+  <header class="bg-[#2D3748] shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="admin_dashboard.html" class="text-white text-2xl sm:text-3xl font-bold">
+          lazy.cook <span class="text-lg font-normal text-gray-400">Admin</span>
+        </a>
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <img src="https://via.placeholder.com/36/4A5568/4A5568?text=" alt="Admin User Avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-gray-500">
+          <span class="hidden sm:inline text-gray-300 text-sm font-semibold">Admin User</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 flex flex-col md:flex-row">
+    <aside class="w-full md:w-60 lg:w-64 bg-[#252E3D] p-4 sm:p-6 shrink-0 custom-scrollbar overflow-y-auto">
+      <nav class="space-y-2">
+        <a href="admin_dashboard.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          <span class="text-sm font-medium">Dashboard</span>
+        </a>
+        <a href="admin_users.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md bg-gray-700 text-white transition-colors duration-150"> <!-- Active Link -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <span class="text-sm font-bold">Users</span>
+        </a>
+        <a href="admin.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6H8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+          <span class="text-sm font-medium">Flagged Comments</span>
+           <span class="ml-auto text-xs bg-red-500 text-white px-1.5 py-0.5 rounded-full">3</span>
+        </a>
+        <a href="admin_settings.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span class="text-sm font-medium">Settings</span>
+        </a>
+        <hr class="border-gray-600 my-4">
+        <a href="index_logged_out.html" id="admin-logout-button" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-red-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <span class="text-sm font-medium">Logout (Site)</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto custom-scrollbar" style="background: url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/h3hkiwux_expires_30_days.png') center center / cover fixed;">
+      <div class="bg-black/30 backdrop-blur-sm p-4 sm:p-6 rounded-lg">
+        <h1 class="text-2xl sm:text-3xl font-bold text-white mb-6">User Management</h1>
+        
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+            <input
+                type="text"
+                placeholder="Search users by name, email, ID..."
+                class="w-full sm:w-1/2 bg-[#2D3748] text-gray-200 placeholder-gray-500 text-sm p-3 rounded-md border border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors"
+            />
+            <button class="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2.5 px-4 rounded-md text-sm transition-colors">
+                Add New User
+            </button>
+        </div>
+
+        <div class="bg-[#2D3748]/80 rounded-md shadow-2xl border border-gray-700 overflow-hidden">
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead class="bg-[#374151]/90">
+                <tr>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">User ID</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Username</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Email</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Recipes</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Joined Date</th>
+                  <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
+                  <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-700">
+                <tr class="user-row hover:bg-[#374151]/70 transition-colors duration-150">
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">USR_001</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">ChefMaster123</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">chefmaster@example.com</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300 text-center">15</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2023-01-15</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-600 text-green-100">Active</span>
+                  </td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <button title="Edit User" class="text-blue-400 hover:text-blue-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    </button>
+                    <button title="Ban User" class="text-yellow-400 hover:text-yellow-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 ban-user">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </button>
+                    <button title="Delete User" class="text-red-400 hover:text-red-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 delete-user">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </td>
+                </tr>
+                 <tr class="user-row hover:bg-[#374151]/70 transition-colors duration-150">
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">USR_002</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">FoodieGal</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">foodie@example.com</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300 text-center">27</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2022-11-02</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-600 text-green-100">Active</span>
+                  </td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <button title="Edit User" class="text-blue-400 hover:text-blue-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    </button>
+                     <button title="Unban User" class="text-green-400 hover:text-green-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 hidden">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </button>
+                    <button title="Ban User" class="text-yellow-400 hover:text-yellow-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 ban-user">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </button>
+                    <button title="Delete User" class="text-red-400 hover:text-red-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 delete-user">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </td>
+                </tr>
+                 <tr class="user-row hover:bg-[#374151]/70 transition-colors duration-150">
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">USR_003</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">ProblemUser99</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">problem@example.com</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300 text-center">2</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2023-08-10</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center user-status-cell">
+                    <span class="status-badge px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-600 text-red-100">Banned</span>
+                  </td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <button title="Edit User" class="text-blue-400 hover:text-blue-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    </button>
+                     <button title="Unban User" class="text-green-400 hover:text-green-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 unban-user">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </button>
+                    <button title="Ban User" class="text-yellow-400 hover:text-yellow-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 ban-user hidden">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </button>
+                    <button title="Delete User" class="text-red-400 hover:text-red-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 delete-user">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-between items-center mt-6 text-sm">
+          <span id="user-results-count" class="text-gray-400 mb-2 sm:mb-0">Showing 1 to 3 of 50 results</span>
+          <div class="flex items-center space-x-1">
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>Previous</button>
+            <button class="px-3 py-1.5 text-white bg-purple-600 hover:bg-purple-500 rounded-md transition-colors">1</button>
+             <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">2</button>
+            <span class="text-gray-500">...</span>
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">5</button>
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">Next</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const adminLogoutButton = document.getElementById('admin-logout-button');
+    if (adminLogoutButton) {
+      adminLogoutButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to log out from the admin panel and return to the main site?")) {
+          window.location.href = this.href;
+        }
+      });
+    }
+
+    const deleteUserButtons = document.querySelectorAll('.delete-user');
+    deleteUserButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('.user-row');
+            if (confirm("Are you sure you want to permanently delete this user? This action cannot be undone.")) {
+                row.classList.add('row-fade-out');
+                row.addEventListener('animationend', () => {
+                    row.remove();
+                    updateUserResultsCount();
+                });
+            }
+        });
+    });
+
+    const banUserButtons = document.querySelectorAll('.ban-user');
+    banUserButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('.user-row');
+            const statusCell = row.querySelector('.user-status-cell .status-badge');
+            const unbanButton = row.querySelector('.unban-user');
+            if (confirm("Are you sure you want to ban this user?")) {
+                statusCell.textContent = "Banned";
+                statusCell.classList.remove('bg-green-600', 'text-green-100');
+                statusCell.classList.add('bg-red-600', 'text-red-100');
+                this.classList.add('hidden');
+                unbanButton.classList.remove('hidden');
+            }
+        });
+    });
+    
+    const unbanUserButtons = document.querySelectorAll('.unban-user');
+    unbanUserButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('.user-row');
+            const statusCell = row.querySelector('.user-status-cell .status-badge');
+            const banButton = row.querySelector('.ban-user');
+             if (confirm("Are you sure you want to unban this user?")) {
+                statusCell.textContent = "Active";
+                statusCell.classList.remove('bg-red-600', 'text-red-100');
+                statusCell.classList.add('bg-green-600', 'text-green-100');
+                this.classList.add('hidden');
+                banButton.classList.remove('hidden');
+            }
+        });
+    });
+
+    function updateUserResultsCount() {
+        const remainingRows = document.querySelectorAll('.user-row:not(.row-fade-out)').length;
+        const resultsSpan = document.getElementById('user-results-count');
+        if (resultsSpan) {
+            const totalInitialRows = 3; 
+            const totalReportedItems = 50;
+            const currentTotalOnPage = Math.min(remainingRows, totalInitialRows);
+            const totalAfterActions = totalReportedItems - (totalInitialRows - remainingRows);
+
+            if (remainingRows === 0) {
+                 resultsSpan.textContent = `No users to show on this page.`;
+            } else {
+                 resultsSpan.textContent = `Showing 1 to ${currentTotalOnPage} of ${totalAfterActions} results`;
+            }
+        }
+    }
+
+  });
+</script>
+</body>
+</html>

@@ -3,111 +3,231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Flagged Comments</title>
+  <title>Admin - Flagged Comments - LazyCook</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     }
-    .overflow-y-auto::-webkit-scrollbar { width: 8px; }
-    .overflow-y-auto::-webkit-scrollbar-thumb { background-color: #4F4F4F; border-radius: 4px; }
-    .overflow-y-auto::-webkit-scrollbar-track { background-color: #2C2C2C; }
-    .overflow-x-auto::-webkit-scrollbar { height: 8px; }
-    .overflow-x-auto::-webkit-scrollbar-thumb { background-color: #4F4F4F; border-radius: 4px; }
-    .overflow-x-auto::-webkit-scrollbar-track { background-color: #2C2C2C; }
+    /* Custom scrollbar for dark theme */
+    .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #4A5568; border-radius: 4px; } /* Slightly lighter gray for thumb */
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #718096; }
+    .custom-scrollbar::-webkit-scrollbar-track { background-color: #1A202C; } /* Darker gray for track */
+
+    @keyframes fadeOutRow {
+      from { opacity: 1; transform: scaleY(1); padding-top: 0.75rem; padding-bottom: 0.75rem; height: auto; } /* md:p-4 corresponds to 1rem, p-3 to 0.75rem */
+      to { opacity: 0; transform: scaleY(0.8); padding-top: 0; padding-bottom: 0; height: 0; margin-top: 0; margin-bottom: 0; border-width: 0;}
+    }
+    .row-fade-out {
+      animation: fadeOutRow 0.3s ease-out forwards;
+      overflow: hidden;
+    }
   </style>
 </head>
-<body class="bg-[#FFFFFF]">
+<body class="bg-[#1A202C] text-gray-200"> <!-- Base dark background and light text -->
 <div class="flex flex-col min-h-screen">
-  <div class="flex items-center self-stretch bg-[#232323] py-3 px-4 sm:px-6 md:px-8">
-    <a href="admin.html" class="flex-1 text-[#FFFFFF] text-lg sm:text-xl md:text-2xl font-bold">
-      LazyCook - Admin
-    </a>
-    <span class="text-[#FFFFFF] text-sm md:text-base mr-2 md:mr-3">
-				Admin User
-			</span>
-    <div class="flex flex-col shrink-0 items-center justify-center bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/4cf05sry_expires_30_days.png')] bg-cover bg-center w-8 h-8 md:w-10 md:h-10 rounded-full">
-				<span class="text-[#000000] text-xs md:text-sm font-semibold">
-					AU
-				</span>
-    </div>
-  </div>
 
-  <div class="flex flex-col md:flex-row flex-1">
-    <div class="w-full md:w-56 lg:w-64 bg-[#2C2C2C] text-white shrink-0">
-      <div class="p-4 md:p-6 space-y-6 md:space-y-8 mt-4 md:mt-0">
-        <a href="admin.html" class="block text-[#A0A0A0] hover:text-white text-lg md:text-xl transition-colors duration-150">📊 Dashboard</a>
-        <a href="#" class="block text-[#A0A0A0] hover:text-white text-lg md:text-xl transition-colors duration-150">👥 Users</a>
-        <a href="admin.html" class="block text-white font-semibold text-lg md:text-xl transition-colors duration-150">🍲 Flagged <span class="text-xs text-gray-400">(Active)</span></a>
-        <a href="#" class="block text-[#A0A0A0] hover:text-white text-lg md:text-xl transition-colors duration-150">⚙️ Settings</a>
-        <a href="index.html" class="block text-[#A0A0A0] hover:text-red-400 text-lg md:text-xl transition-colors duration-150 mt-10">🚪 Logout (Site)</a>
+  <!-- Admin Header -->
+  <header class="bg-[#2D3748] shadow-md"> <!-- Darker header -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="admin_dashboard.html" class="text-white text-2xl sm:text-3xl font-bold">
+          lazy.cook <span class="text-lg font-normal text-gray-400">Admin</span>
+        </a>
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <img src="https://via.placeholder.com/36/4A5568/4A5568?text=" alt="Admin User Avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-gray-500">
+          <span class="hidden sm:inline text-gray-300 text-sm font-semibold">Admin User</span>
+        </div>
       </div>
     </div>
+  </header>
 
-    <div class="flex-1 flex flex-col bg-[#1E1E1E] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/h3hkiwux_expires_30_days.png')] bg-cover bg-center p-4 sm:p-5 md:p-8 overflow-y-auto">
-				<span class="text-[#E0E0E0] text-xl sm:text-2xl md:text-3xl font-bold mb-6 md:mb-8">
-					Flagged Comments
-				</span>
+  <div class="flex-1 flex flex-col md:flex-row">
+    <!-- Admin Sidebar -->
+    <aside class="w-full md:w-60 lg:w-64 bg-[#252E3D] p-4 sm:p-6 shrink-0 custom-scrollbar overflow-y-auto"> <!-- Slightly different dark shade for sidebar -->
+      <nav class="space-y-2">
+        <a href="admin_dashboard.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          <span class="text-sm font-medium">Dashboard</span>
+        </a>
+        <a href="admin_users.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <span class="text-sm font-medium">Users</span>
+        </a>
+        <a href="admin.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md bg-gray-700 text-white transition-colors duration-150"> <!-- Active Link -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6H8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+          <span class="text-sm font-bold">Flagged Comments</span>
+          <span class="ml-auto text-xs bg-red-500 text-white px-1.5 py-0.5 rounded-full">3</span>
+        </a>
+        <a href="admin_settings.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span class="text-sm font-medium">Settings</span>
+        </a>
+        <hr class="border-gray-600 my-4">
+        <a href="index_logged_out.html" id="admin-logout-button" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-red-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <span class="text-sm font-medium">Logout (Site)</span>
+        </a>
+      </nav>
+    </aside>
 
-      <div class="flex flex-col sm:flex-row w-full gap-4 mb-6 md:mb-8">
-        <input
-                type="text"
-                placeholder="Search comments by text, ID..."
-                class="w-full sm:flex-1 text-[#FFFFFF] bg-[#353535] text-sm p-3 rounded-md border border-solid border-[#4D4D4D] focus:ring-2 focus:ring-[#60A5FA] focus:border-[#60A5FA] outline-none"
-        />
-        <input
-                type="text"
-                placeholder="Filter by user, reason, date..."
-                class="w-full sm:flex-1 text-[#FFFFFF] bg-[#353535] text-sm p-3 rounded-md border border-solid border-[#4D4D4D] focus:ring-2 focus:ring-[#60A5FA] focus:border-[#60A5FA] outline-none"
-        />
-      </div>
+    <!-- Main Content Area: Flagged Comments -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto custom-scrollbar" style="background: url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/h3hkiwux_expires_30_days.png') center center / cover fixed;">
+      <div class="bg-black/30 backdrop-blur-sm p-4 sm:p-6 rounded-lg">
+        <h1 class="text-2xl sm:text-3xl font-bold text-white mb-6">Flagged Comments</h1>
 
-      <div class="w-full mb-8">
-        <div class="overflow-x-auto rounded-md shadow-lg border border-[#4D4D4D]">
-          <div class="min-w-[700px] md:min-w-[800px] lg:min-w-full">
-            <div class="flex items-center bg-[#2A2A2A] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/1ovbe3si_expires_30_days.png')] bg-cover bg-center p-3 md:p-4 text-xs sm:text-sm">
-              <span class="text-[#BDBDBD] font-bold w-16 shrink-0 px-2">ID</span>
-              <span class="text-[#BDBDBD] font-bold w-32 sm:w-36 shrink-0 px-2">Reported By</span>
-              <span class="text-[#BDBDBD] font-bold flex-1 min-w-[200px] sm:min-w-[250px] px-2">Comment Text (Excerpt)</span>
-              <span class="text-[#BDBDBD] font-bold w-28 sm:w-32 shrink-0 px-2">Reason</span>
-              <span class="text-[#BDBDBD] font-bold w-28 sm:w-32 shrink-0 px-2">Date</span>
-              <span class="text-[#BDBDBD] font-bold w-24 sm:w-28 shrink-0 text-center px-2">Actions</span>
-            </div>
-            <div class="flex items-center bg-[#333333] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/a2vecnv9_expires_30_days.png')] bg-cover bg-center p-3 md:p-4 border-t border-[#4D4D4D] hover:bg-[#3F3F3F] transition-colors text-sm">
-              <span class="text-[#E0E0E0] w-16 shrink-0 px-2 truncate">#1023</span>
-              <span class="text-[#E0E0E0] w-32 sm:w-36 shrink-0 px-2 truncate">UserA123</span>
-              <span class="text-[#E0E0E0] flex-1 min-w-[200px] sm:min-w-[250px] px-2 truncate">This is a very offensive comment that violates...</span>
-              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2 truncate">Hate Speech</span>
-              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2">2023-10-25</span>
-              <div class="w-24 sm:w-28 shrink-0 flex items-center justify-center space-x-2 px-2">
-                <button title="Approve" class="text-green-500 hover:text-green-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">✔️</button>
-                <button title="Delete" class="text-red-500 hover:text-red-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">🗑️</button>
-              </div>
-            </div>
-            <div class="flex items-center bg-[#333333] bg-[url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/39etpind_expires_30_days.png')] bg-cover bg-center p-3 md:p-4 border-t border-[#4D4D4D] hover:bg-[#3F3F3F] transition-colors text-sm">
-              <span class="text-[#E0E0E0] w-16 shrink-0 px-2 truncate">#1024</span>
-              <span class="text-[#E0E0E0] w-32 sm:w-36 shrink-0 px-2 truncate">AnotherUser</span>
-              <span class="text-[#E0E0E0] flex-1 min-w-[200px] sm:min-w-[250px] px-2 truncate">Spam link here: http://spam.com</span>
-              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2 truncate">Spam</span>
-              <span class="text-[#E0E0E0] w-28 sm:w-32 shrink-0 px-2">2023-10-26</span>
-              <div class="w-24 sm:w-28 shrink-0 flex items-center justify-center space-x-2 px-2">
-                <button title="Approve" class="text-green-500 hover:text-green-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">✔️</button>
-                <button title="Delete" class="text-red-500 hover:text-red-400 text-lg sm:text-xl p-1 rounded hover:bg-gray-700 transition-colors">🗑️</button>
-              </div>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <input
+                  type="text"
+                  placeholder="Search comments by text, ID..."
+                  class="w-full bg-[#2D3748] text-gray-200 placeholder-gray-500 text-sm p-3 rounded-md border border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors"
+          />
+          <input
+                  type="text"
+                  placeholder="Filter by user, reason, date..."
+                  class="w-full bg-[#2D3748] text-gray-200 placeholder-gray-500 text-sm p-3 rounded-md border border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors"
+          />
+        </div>
+
+        <div class="bg-[#2D3748]/80 rounded-md shadow-2xl border border-gray-700 overflow-hidden">
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead class="bg-[#374151]/90" style="background-image: url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/1ovbe3si_expires_30_days.png'); background-size: cover; background-position: center;">
+                <tr>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">ID</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Reported By</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider min-w-[250px]">Comment Excerpt</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Reason</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
+                  <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-700">
+                <!-- Comment Row 1 -->
+                <tr class="comment-row hover:bg-[#374151]/70 transition-colors duration-150" style="background-image: url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/a2vecnv9_expires_30_days.png'); background-size: cover; background-position: center;">
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">#1023</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">UserAlpha007</td>
+                  <td class="px-4 py-3 text-sm text-gray-300 max-w-xs truncate">This is a very offensive comment that violates community guidelines completely...</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">Hate Speech</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2023-10-25</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <button title="Approve Comment" class="text-green-400 hover:text-green-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 approve-comment">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </button>
+                    <button title="Delete Comment" class="text-red-400 hover:text-red-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 delete-comment">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </td>
+                </tr>
+                <!-- Comment Row 2 -->
+                <tr class="comment-row hover:bg-[#374151]/70 transition-colors duration-150" style="background-image: url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/39etpind_expires_30_days.png'); background-size: cover; background-position: center;">
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">#1024</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">BetaUserMax</td>
+                  <td class="px-4 py-3 text-sm text-gray-300 max-w-xs truncate">Spam link here: http://definitelymalicious.spam.com/clickme please.</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">Spam</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2023-10-26</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <button title="Approve Comment" class="text-green-400 hover:text-green-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 approve-comment">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </button>
+                    <button title="Delete Comment" class="text-red-400 hover:text-red-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 delete-comment">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </td>
+                </tr>
+                 <tr class="comment-row hover:bg-[#374151]/70 transition-colors duration-150" style="background-image: url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/a2vecnv9_expires_30_days.png'); background-size: cover; background-position: center;">
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">#1025</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">UserGammaLite</td>
+                  <td class="px-4 py-3 text-sm text-gray-300 max-w-xs truncate">This recipe is terrible, you should all try my much better recipe instead.</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">Self-promotion</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2023-10-27</td>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                    <button title="Approve Comment" class="text-green-400 hover:text-green-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 approve-comment">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </button>
+                    <button title="Delete Comment" class="text-red-400 hover:text-red-300 p-1.5 rounded-md hover:bg-gray-600 transition-all duration-150 delete-comment">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mt-6 text-sm">
+          <span id="results-count" class="text-gray-400 mb-2 sm:mb-0">Showing 1 to 3 of 15 results</span>
+          <div class="flex items-center space-x-1">
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>Previous</button>
+            <button class="px-3 py-1.5 text-white bg-purple-600 hover:bg-purple-500 rounded-md transition-colors">1</button>
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">2</button>
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">3</button>
+            <span class="text-gray-500">...</span>
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">5</button>
+            <button class="px-3 py-1.5 text-gray-400 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">Next</button>
           </div>
         </div>
       </div>
-
-      <div class="flex flex-col sm:flex-row justify-center sm:justify-end items-center w-full mt-auto pt-4 gap-2 sm:gap-0">
-        <span class="text-[#FFFFFF] text-sm md:text-base">Page 1 of 5</span>
-        <div class="flex items-center space-x-1 sm:space-x-2 ml-0 sm:ml-4">
-          <button class="text-[#FFFFFF] text-sm md:text-base px-2 py-1 hover:bg-[#4D4D4D] rounded transition-colors disabled:opacity-50" disabled>[ < Prev ]</button>
-          <button class="text-[#FFFFFF] text-sm md:text-base px-2 py-1 hover:bg-[#4D4D4D] rounded transition-colors">[ Next > ]</button>
-        </div>
-      </div>
-    </div>
+    </main>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const deleteButtons = document.querySelectorAll('.delete-comment');
+    const approveButtons = document.querySelectorAll('.approve-comment');
+    const adminLogoutButton = document.getElementById('admin-logout-button');
+
+    function handleRowAction(button, actionType) {
+      const row = button.closest('.comment-row');
+      if (row) {
+        console.log(`${actionType} comment in row:`, row.querySelector('td:first-child').textContent);
+        row.classList.add('row-fade-out');
+        row.addEventListener('animationend', () => {
+          row.remove();
+          updateResultsCount();
+        });
+      }
+    }
+
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', () => handleRowAction(button, 'Deleting'));
+    });
+
+    approveButtons.forEach(button => {
+      button.addEventListener('click', () => handleRowAction(button, 'Approving'));
+    });
+    
+    function updateResultsCount() {
+        const remainingRows = document.querySelectorAll('.comment-row:not(.row-fade-out)').length;
+        const totalInitialRows = 3; // Assuming 3 rows initially displayed from the 15 total
+        const resultsSpan = document.getElementById('results-count');
+        
+        if (resultsSpan) {
+            const totalReportedItems = 15; // This would ideally come from a backend or a data attribute
+            const currentTotalOnPage = Math.min(remainingRows, totalInitialRows); // How many are actually left from the initial display.
+            const totalAfterActions = totalReportedItems - (totalInitialRows - remainingRows);
+
+            if (remainingRows === 0) {
+                 resultsSpan.textContent = `No results to show on this page.`;
+            } else {
+                 resultsSpan.textContent = `Showing 1 to ${currentTotalOnPage} of ${totalAfterActions} results`;
+            }
+        }
+    }
+
+    if (adminLogoutButton) {
+      adminLogoutButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default navigation
+        if (confirm("Are you sure you want to log out from the admin panel and return to the main site?")) {
+          window.location.href = this.href;
+        }
+      });
+    }
+  });
+</script>
+
 </body>
 </html>

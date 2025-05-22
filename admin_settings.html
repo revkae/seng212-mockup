@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Settings - LazyCook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #4A5568; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #718096; }
+    .custom-scrollbar::-webkit-scrollbar-track { background-color: #1A202C; }
+  </style>
+</head>
+<body class="bg-[#1A202C] text-gray-200">
+<div class="flex flex-col min-h-screen">
+
+  <header class="bg-[#2D3748] shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="admin_dashboard.html" class="text-white text-2xl sm:text-3xl font-bold">
+          lazy.cook <span class="text-lg font-normal text-gray-400">Admin</span>
+        </a>
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <img src="https://via.placeholder.com/36/4A5568/4A5568?text=" alt="Admin User Avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-gray-500">
+          <span class="hidden sm:inline text-gray-300 text-sm font-semibold">Admin User</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 flex flex-col md:flex-row">
+    <aside class="w-full md:w-60 lg:w-64 bg-[#252E3D] p-4 sm:p-6 shrink-0 custom-scrollbar overflow-y-auto">
+      <nav class="space-y-2">
+        <a href="admin_dashboard.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          <span class="text-sm font-medium">Dashboard</span>
+        </a>
+        <a href="admin_users.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <span class="text-sm font-medium">Users</span>
+        </a>
+        <a href="admin.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-gray-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6H8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+          <span class="text-sm font-medium">Flagged Comments</span>
+           <span class="ml-auto text-xs bg-red-500 text-white px-1.5 py-0.5 rounded-full">3</span>
+        </a>
+        <a href="admin_settings.html" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md bg-gray-700 text-white transition-colors duration-150"> <!-- Active Link -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span class="text-sm font-bold">Settings</span>
+        </a>
+        <hr class="border-gray-600 my-4">
+        <a href="index_logged_out.html" id="admin-logout-button" class="group flex items-center space-x-3 px-3 py-2.5 rounded-md hover:bg-red-700 hover:text-white text-gray-400 transition-colors duration-150">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <span class="text-sm font-medium">Logout (Site)</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto custom-scrollbar" style="background: url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/KwOHlBTY7I/h3hkiwux_expires_30_days.png') center center / cover fixed;">
+      <div class="bg-black/30 backdrop-blur-sm p-4 sm:p-6 rounded-lg">
+        <h1 class="text-2xl sm:text-3xl font-bold text-white mb-6">Admin Settings</h1>
+        
+        <div class="space-y-8">
+            <!-- General Settings Section -->
+            <section class="bg-[#2D3748]/80 p-6 rounded-lg shadow-lg border border-gray-700">
+                <h2 class="text-xl font-semibold text-purple-400 mb-4">General Site Settings</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label for="site-name" class="block text-sm font-medium text-gray-300 mb-1">Site Name</label>
+                        <input type="text" id="site-name" value="LazyCook" class="w-full bg-[#374151] text-gray-200 placeholder-gray-500 text-sm p-2.5 rounded-md border border-gray-600 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors">
+                    </div>
+                    <div>
+                        <label for="site-tagline" class="block text-sm font-medium text-gray-300 mb-1">Site Tagline</label>
+                        <input type="text" id="site-tagline" value="Find & Share Delicious Recipes" class="w-full bg-[#374151] text-gray-200 placeholder-gray-500 text-sm p-2.5 rounded-md border border-gray-600 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors">
+                    </div>
+                     <div>
+                        <label for="admin-email" class="block text-sm font-medium text-gray-300 mb-1">Admin Contact Email</label>
+                        <input type="email" id="admin-email" value="admin@lazycook.example" class="w-full bg-[#374151] text-gray-200 placeholder-gray-500 text-sm p-2.5 rounded-md border border-gray-600 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Moderation Settings Section -->
+            <section class="bg-[#2D3748]/80 p-6 rounded-lg shadow-lg border border-gray-700">
+                <h2 class="text-xl font-semibold text-purple-400 mb-4">Moderation Settings</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-300">Enable automatic comment flagging for keywords</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" value="" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-400 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                        </label>
+                    </div>
+                    <div>
+                        <label for="flagged-keywords" class="block text-sm font-medium text-gray-300 mb-1">Flagged Keywords (comma-separated)</label>
+                        <textarea id="flagged-keywords" rows="3" class="w-full bg-[#374151] text-gray-200 placeholder-gray-500 text-sm p-2.5 rounded-md border border-gray-600 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors">offensive,spam,inappropriate</textarea>
+                    </div>
+                    <div>
+                        <label for="default-ban-duration" class="block text-sm font-medium text-gray-300 mb-1">Default User Ban Duration (days)</label>
+                        <input type="number" id="default-ban-duration" value="7" class="w-1/3 bg-[#374151] text-gray-200 placeholder-gray-500 text-sm p-2.5 rounded-md border border-gray-600 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors">
+                    </div>
+                </div>
+            </section>
+            
+            <div class="flex justify-end">
+                <button class="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2.5 px-6 rounded-md text-sm transition-colors">
+                    Save Settings
+                </button>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const adminLogoutButton = document.getElementById('admin-logout-button');
+    if (adminLogoutButton) {
+      adminLogoutButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to log out from the admin panel and return to the main site?")) {
+          window.location.href = this.href;
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>
